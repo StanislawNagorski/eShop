@@ -5,6 +5,8 @@ Time I spend on project:
 
 [![time tracker](https://wakatime.com/badge/github/StanislawNagorski/eshop.svg)](https://wakatime.com/badge/github/StanislawNagorski/eshop)
 
+[Active sprint with Jira](https://scrumtrening.atlassian.net/secure/RapidBoard.jspa?rapidView=4&projectKey=ES&atlOrigin=eyJpIjoiNDRjYjJjNTk3ZjVhNGJhNjg1OGY5ZDNjMjg0OTFhN2YiLCJwIjoiaiJ9)
+
 
 About project:
 -
