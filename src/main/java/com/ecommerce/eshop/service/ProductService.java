@@ -55,6 +55,7 @@ public class ProductService {
         productFromDB.setPromo(product.isPromo());
         productFromDB.setPromoPrice(product.getPromoPrice());
         productFromDB.setQuantity(product.getQuantity());
+        productFromDB.setActive(product.isActive());
 
         return productRepository.save(productFromDB);
     }
