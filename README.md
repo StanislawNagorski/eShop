@@ -18,6 +18,7 @@ Technology stack:
 - Java 11, Spring,
 - hibernate and MySQL,
 - build with Maven,
+- Rest Api,
 - TypeScrip, Angular,
 
 What I have learned in this project:

@@ -30,8 +30,7 @@ public class Product {
     private BigDecimal price;
     private Integer quantity;
     private boolean isPromo;
-    @Enumerated(EnumType.STRING)
-    private ProductCategories category;
+    private String category;
     private BigDecimal promoPrice;
     @OneToMany (mappedBy = "productId")
     private List<ProductImage> productImages;

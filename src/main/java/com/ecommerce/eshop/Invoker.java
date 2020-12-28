@@ -1,7 +1,6 @@
 package com.ecommerce.eshop;
 
 import com.ecommerce.eshop.models.Product;
-import com.ecommerce.eshop.models.ProductCategories;
 import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +24,16 @@ public class Invoker implements CommandLineRunner {
         testProduct.setName("Szabla");
         testProduct.setDescription("To bardzo dobra szabla, nieźle wyważona, sama leży w łapie");
         testProduct.setPrice(BigDecimal.valueOf(140.22));
-        testProduct.setCategory(ProductCategories.WEAPONS);
+        testProduct.setQuantity(20);
+        testProduct.setCategory("szabla");
 
         productService.save(testProduct);
 
-        Product fromDB = productRepository.getOne(3L);
-        fromDB.setQuantity(100);
-        productService.update(fromDB);
-
-        productService.deactivate(3L);
+//        Product fromDB = productRepository.getOne(3L);
+//        fromDB.setQuantity(100);
+//        productService.update(fromDB);
+//
+//        productService.deactivate(3L);
 
 
     }
