@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -31,6 +30,7 @@ public class Product {
     private BigDecimal price;
     private Integer quantity;
     private boolean isPromo;
+    @Enumerated(EnumType.STRING)
     private ProductCategories category;
     private BigDecimal promoPrice;
     @OneToMany (mappedBy = "productId")
