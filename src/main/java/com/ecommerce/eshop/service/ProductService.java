@@ -1,11 +1,13 @@
 package com.ecommerce.eshop.service;
 
 import com.ecommerce.eshop.models.Product;
+import com.ecommerce.eshop.models.ProductCategories;
 import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +20,24 @@ public class ProductService {
         if (product.getId() != null &&  productRepository.existsById(product.getId())){
            throw new ProductCreationException("Cannot save product with id: " + product.getId() + " it already exists");
         }
+        product.setActive(true);
         return productRepository.save(product);
+    }
+
+    public Product getById(Long id){
+        Optional<Product> byId = productRepository.findById(id);
+        if (byId.isEmpty()){
+            throw new ProductCreationException("Cannot fing product with id: " + id);
+        }
+        return byId.get();
+    }
+
+    public List<Product> getAll(){
+        return productRepository.findAll();
+    }
+
+    public List<Product> getAllByCategory(ProductCategories category){
+        return productRepository.findAllByCategory(category);
     }
 
     public Product update(Product product){
@@ -38,6 +57,17 @@ public class ProductService {
         productFromDB.setQuantity(product.getQuantity());
 
         return productRepository.save(productFromDB);
+    }
+
+    public void deactivate(Long id){
+        Optional<Product> byId = productRepository.findById(id);
+
+        if (byId.isEmpty()){
+            throw new ProductCreationException("Cannot remove product with id: " + id);
+        }
+        Product productFromDB = byId.get();
+        productFromDB.setActive(false);
+        productRepository.save(productFromDB);
     }
 
 

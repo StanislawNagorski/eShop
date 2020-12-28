@@ -27,11 +27,14 @@ public class Invoker implements CommandLineRunner {
         testProduct.setPrice(BigDecimal.valueOf(140.22));
         testProduct.setCategory(ProductCategories.WEAPONS);
 
-        productRepository.save(testProduct);
+        productService.save(testProduct);
 
-        Product fromDB = productRepository.getOne(1L);
+        Product fromDB = productRepository.getOne(3L);
         fromDB.setQuantity(100);
         productService.update(fromDB);
+
+        productService.deactivate(3L);
+
 
     }
 }

@@ -39,5 +39,6 @@ public class Product {
     private LocalDateTime creationTime;
     @UpdateTimestamp
     private LocalDateTime updateTime;
+    private boolean isActive;
 
 }
