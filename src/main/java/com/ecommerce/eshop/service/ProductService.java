@@ -1,6 +1,6 @@
 package com.ecommerce.eshop.service;
 
-import com.ecommerce.eshop.models.Product;
+import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class ProductService {
     }
 
     public List<Product> getAllByCategory(String category){
-        return productRepository.findAllByCategory(category);
+        return productRepository.findAllByCategory_Name(category);
     }
 
     public Product update(Product product){

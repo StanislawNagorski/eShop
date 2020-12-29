@@ -1,13 +1,13 @@
 package com.ecommerce.eshop.repositories;
 
-import com.ecommerce.eshop.models.product.Product;
+import com.ecommerce.eshop.models.product.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface CategoryRepository extends JpaRepository<ProductCategory, Long> {
 
-     List<Product> findAllByCategory_Name(String category_name);
+    ProductCategory getFirstByNameLike(String name);
 }

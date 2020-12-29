@@ -1,7 +1,8 @@
 package com.ecommerce.eshop;
 
-import com.ecommerce.eshop.models.Product;
-import com.ecommerce.eshop.repositories.ProductRepository;
+import com.ecommerce.eshop.models.product.Product;
+import com.ecommerce.eshop.models.product.ProductCategory;
+import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -14,26 +15,29 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class Invoker implements CommandLineRunner {
 
-    private final ProductRepository productRepository;
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
         Product testProduct = new Product();
-        testProduct.setName("Szabla");
-        testProduct.setDescription("To bardzo dobra szabla, nieźle wyważona, sama leży w łapie");
-        testProduct.setPrice(BigDecimal.valueOf(140.22));
-        testProduct.setQuantity(20);
-        testProduct.setCategory("szabla");
+        testProduct.setName("Szabla Bojowa");
+        testProduct.setDescription("Przeznaczona do cięcią kapusty i imponowania gościom wisząc na ścianie");
+        testProduct.setPrice(BigDecimal.valueOf(170.22));
+        testProduct.setQuantity(40);
+        testProduct.setCategory(categoryService.getOneByName("szabla"));
 
         productService.save(testProduct);
 
-//        Product fromDB = productRepository.getOne(3L);
-//        fromDB.setQuantity(100);
+        ProductCategory testCategory = new ProductCategory();
+        testCategory.setName("szabla");
+//        categoryService.save(testCategory);
+
+//        Product fromDB = productService.getById(2L);
+//        fromDB.setCategory(categoryService.getOneByName("szabla"));
 //        productService.update(fromDB);
-//
-//        productService.deactivate(3L);
+
 
 
     }

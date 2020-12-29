@@ -1,4 +1,4 @@
-package com.ecommerce.eshop.models;
+package com.ecommerce.eshop.models.product;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,9 @@ public class Product {
     private BigDecimal price;
     private Integer quantity;
     private boolean isPromo;
-    private String category;
+    @ManyToOne
+    @JoinColumn()
+    private ProductCategory category;
     private BigDecimal promoPrice;
     @OneToMany (mappedBy = "productId")
     private List<ProductImage> productImages;
