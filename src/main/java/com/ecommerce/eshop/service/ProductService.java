@@ -43,6 +43,18 @@ public class ProductService {
         return productRepository.findAllByisPromo(true);
     }
 
+    public List<Product> getAllProductsByPriceAsc(){
+        return productRepository.findAllByPriceNotNullOrderByPriceAsc();
+    }
+
+    public List<Product> getAllProductsByPriceDesc(){
+        return productRepository.findAllByPriceNotNullOrderByPriceDesc();
+    }
+
+    public List<Product> getAllByName(String name) {
+        return productRepository.findAllByNameContains(name);
+    }
+
     public Product update(Product product){
         Optional<Product> byId = productRepository.findById(product.getId());
 
@@ -73,7 +85,5 @@ public class ProductService {
         productFromDB.setActive(false);
         productRepository.save(productFromDB);
     }
-
-
 
 }

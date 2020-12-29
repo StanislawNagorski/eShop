@@ -51,10 +51,28 @@ public class ProductController {
         return productService.getAllPromoProducts();
     }
 
+    @GetMapping("/price")
+    public List<Product> getAllByPrice(@RequestParam(required = false) String order){
+        if (order != null && order.equalsIgnoreCase("asc")){
+            return productService.getAllProductsByPriceAsc();
+        }
+        if (order != null && order.equalsIgnoreCase("desc")){
+            return productService.getAllProductsByPriceDesc();
+        }
+        return productService.getAllProductsByPriceAsc();
+    }
+
     @GetMapping("/filter")
 //   np http://localhost:8080/products/filter?category=szabla
     public List<Product> getAllByCategory(@RequestParam String category){
         return productService.getAllByCategory(category);
     }
+
+    @GetMapping("/searchByName")
+    public List<Product> getAllByName(@RequestParam String name){
+        return productService.getAllByName(name);
+    }
+
+
 
 }
