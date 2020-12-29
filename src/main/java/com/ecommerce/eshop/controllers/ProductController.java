@@ -5,12 +5,10 @@ import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -52,13 +50,23 @@ public class ProductController {
     }
 
     @GetMapping("/price")
-    public List<Product> getAllByPrice(@RequestParam(required = false) String order){
+    public List<Product> getAllByPrice(@RequestParam(required = false) String order,
+                                       @RequestParam(required = false) String category){
+
+        if (category != null && order != null && order.equalsIgnoreCase("asc")){
+            return productService.getAllByPriceAndCategoryAsc(category);
+        }
+        if (category != null && order != null && order.equalsIgnoreCase("desc")){
+            return productService.getAllByPriceAndCategoryDesc(category);
+        }
+
         if (order != null && order.equalsIgnoreCase("asc")){
             return productService.getAllProductsByPriceAsc();
         }
         if (order != null && order.equalsIgnoreCase("desc")){
             return productService.getAllProductsByPriceDesc();
         }
+
         return productService.getAllProductsByPriceAsc();
     }
 

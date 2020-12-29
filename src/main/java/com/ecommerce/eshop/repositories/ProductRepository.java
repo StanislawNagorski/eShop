@@ -13,8 +13,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      List<Product> findAllByCategory_Name(String category_name);
      List<Product> findAllByCategory_Id(Long category_id);
      List<Product> findAllByisPromo(boolean promo);
-     List<Product> findAllByPriceNotNullOrderByPriceDesc();
      List<Product> findAllByPriceNotNullOrderByPriceAsc();
+     List<Product> findAllByPriceNotNullAndCategory_Name(String category_name);
 
      List<Product> findAllByNameContains(@NotEmpty String name);
 }

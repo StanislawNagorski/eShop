@@ -45,8 +45,8 @@ public class ProductService {
         return productRepository.findAllByisPromo(true);
     }
 
-    public List<Product> getAllProductsByPriceAsc(){
-        return productRepository.findAllByPriceNotNullOrderByPriceAsc()
+    private List<Product> sortByPriceAscendingWithPromoPrice(List<Product> nonSortedList){
+        return nonSortedList
                 .stream()
                 .sorted((o1, o2) -> {
                     if (o1.isPromo() && o2.isPromo()){
@@ -66,10 +66,25 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<Product> getAllProductsByPriceAsc(){
+       return sortByPriceAscendingWithPromoPrice(productRepository.findAllByPriceNotNullOrderByPriceAsc());
+    }
+
     public List<Product> getAllProductsByPriceDesc(){
         List<Product> allProductsByPrice = getAllProductsByPriceAsc();
         Collections.reverse(allProductsByPrice);
         return allProductsByPrice;
+    }
+
+    public List<Product> getAllByPriceAndCategoryAsc(String category){
+        List<Product> resultList = productRepository.findAllByPriceNotNullAndCategory_Name(category);
+        return sortByPriceAscendingWithPromoPrice(resultList);
+    }
+
+    public List<Product> getAllByPriceAndCategoryDesc(String category){
+        List<Product> resultList = sortByPriceAscendingWithPromoPrice(getAllByPriceAndCategoryAsc(category));
+        Collections.reverse(resultList);
+        return resultList;
     }
 
     public List<Product> getAllByName(String name) {
