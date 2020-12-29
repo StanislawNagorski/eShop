@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -87,26 +88,26 @@ public class ProductController {
     }
 
     @PostMapping("/addCategory")
-    public ResponseEntity<?> addProductCategory(@RequestParam String category){
-        ProductCategory productCategory;
-        try {
-            productCategory = categoryService.save(category);
-        } catch (CategoryCreationException e){
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(productCategory);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductCategory addProductCategory(@RequestParam String category){
+        return categoryService.save(category);
     }
 
     @PostMapping("/addProduct")
-    public ResponseEntity<?> addProduct(){
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product addProduct(@Valid @RequestBody Product product){
+        return productService.save(product);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError productNotFoundExceptionHandler(RuntimeException runtimeException){
+        return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler({ProductCreationException.class, CategoryCreationException.class})
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ApiError creationExceptionHandler(RuntimeException runtimeException){
         return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
     }
 

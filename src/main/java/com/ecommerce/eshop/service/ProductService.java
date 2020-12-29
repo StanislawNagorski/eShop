@@ -1,6 +1,7 @@
 package com.ecommerce.eshop.service;
 
 import com.ecommerce.eshop.models.product.Product;
+import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import com.ecommerce.eshop.utils.exepctions.ProductNotFoundException;
@@ -17,11 +18,18 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
     public Product save(Product product){
         if (product.getId() != null &&  productRepository.existsById(product.getId())){
            throw new ProductCreationException("Cannot save product with id: " + product.getId() + " it already exists");
         }
+
+        if (product.getCategory().getId() == null){
+            ProductCategory oneByName = categoryService.getOneByName(product.getCategory().getName());
+            product.setCategory(oneByName);
+        }
+
         product.setActive(true);
         return productRepository.save(product);
     }
