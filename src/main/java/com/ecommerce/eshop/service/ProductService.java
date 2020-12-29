@@ -6,8 +6,10 @@ import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +46,30 @@ public class ProductService {
     }
 
     public List<Product> getAllProductsByPriceAsc(){
-        return productRepository.findAllByPriceNotNullOrderByPriceAsc();
+        return productRepository.findAllByPriceNotNullOrderByPriceAsc()
+                .stream()
+                .sorted((o1, o2) -> {
+                    if (o1.isPromo() && o2.isPromo()){
+                        return o1.getPromoPrice().compareTo(o2.getPromoPrice());
+                    }
+
+                    if (o1.isPromo()) {
+                        return o1.getPromoPrice().compareTo(o2.getPrice());
+                    }
+
+                    if (o2.isPromo()) {
+                        return o1.getPrice().compareTo(o2.getPromoPrice());
+                    }
+
+                    return o1.getPrice().compareTo(o2.getPrice());
+                })
+                .collect(Collectors.toList());
     }
 
     public List<Product> getAllProductsByPriceDesc(){
-        return productRepository.findAllByPriceNotNullOrderByPriceDesc();
+        List<Product> allProductsByPrice = getAllProductsByPriceAsc();
+        Collections.reverse(allProductsByPrice);
+        return allProductsByPrice;
     }
 
     public List<Product> getAllByName(String name) {
