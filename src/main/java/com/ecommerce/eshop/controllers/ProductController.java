@@ -1,8 +1,10 @@
 package com.ecommerce.eshop.controllers;
 
 import com.ecommerce.eshop.models.product.Product;
+import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
+import com.ecommerce.eshop.utils.exepctions.CategoryCreationException;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -79,6 +81,19 @@ public class ProductController {
     @GetMapping("/searchByName")
     public List<Product> getAllByName(@RequestParam String name){
         return productService.getAllByName(name);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addProductCategory(@RequestParam String category){
+        ProductCategory productCategory;
+        try {
+            productCategory = categoryService.save(category);
+        } catch (CategoryCreationException e){
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(productCategory);
     }
 
 

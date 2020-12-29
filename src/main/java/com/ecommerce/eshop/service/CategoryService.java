@@ -16,11 +16,14 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public ProductCategory save(ProductCategory productCategory){
-        if (getCategoryNames().contains(productCategory.getName())){
+    public ProductCategory save(String productCategoryName){
+        String lowerCaseCategoryName = productCategoryName.toLowerCase();
+        if (getCategoryNames().contains(lowerCaseCategoryName)){
             throw new CategoryCreationException(
-                    String.format("Category named: %s already exists in DB", productCategory.getName()));
+                    String.format("Category named: %s already exists in DB", lowerCaseCategoryName));
         }
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setName(lowerCaseCategoryName);
 
         return categoryRepository.save(productCategory);
     }
