@@ -41,14 +41,20 @@ public class ProductController {
         return ResponseEntity.ok(byId);
     }
 
-    @GetMapping("/filter")
-    public List<Product> getAllByCategory(@RequestParam String name){
-        return productService.getAllByCategory(name);
-    }
-
     @GetMapping("/categories")
     public Set<String> getCategoriesNames(){
         return categoryService.getCategoryNames();
+    }
+
+    @GetMapping("/promo")
+    public List<Product> getAllPromoProducts(){
+        return productService.getAllPromoProducts();
+    }
+
+    @GetMapping("/filter")
+//   np http://localhost:8080/products/filter?category=szabla
+    public List<Product> getAllByCategory(@RequestParam String category){
+        return productService.getAllByCategory(category);
     }
 
 }

@@ -39,6 +39,10 @@ public class ProductService {
         return productRepository.findAllByCategory_Name(category);
     }
 
+    public List<Product> getAllPromoProducts(){
+        return productRepository.findAllByisPromo(true);
+    }
+
     public Product update(Product product){
         Optional<Product> byId = productRepository.findById(product.getId());
 

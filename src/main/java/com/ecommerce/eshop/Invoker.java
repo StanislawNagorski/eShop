@@ -21,22 +21,23 @@ public class Invoker implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Product testProduct = new Product();
-        testProduct.setName("Szabla Bojowa");
-        testProduct.setDescription("Przeznaczona do cięcią kapusty i imponowania gościom wisząc na ścianie");
-        testProduct.setPrice(BigDecimal.valueOf(170.22));
-        testProduct.setQuantity(40);
-        testProduct.setCategory(categoryService.getOneByName("szabla"));
-
-        productService.save(testProduct);
-
-        ProductCategory testCategory = new ProductCategory();
-        testCategory.setName("szabla");
+//        Product testProduct = new Product();
+//        testProduct.setName("Szabla Bojowa");
+//        testProduct.setDescription("Przeznaczona do cięcią kapusty i imponowania gościom wisząc na ścianie");
+//        testProduct.setPrice(BigDecimal.valueOf(170.22));
+//        testProduct.setQuantity(40);
+//        testProduct.setCategory(categoryService.getOneByName("szabla"));
+//
+//        productService.save(testProduct);
+//
+//        ProductCategory testCategory = new ProductCategory();
+//        testCategory.setName("szabla");
 //        categoryService.save(testCategory);
 
-//        Product fromDB = productService.getById(2L);
-//        fromDB.setCategory(categoryService.getOneByName("szabla"));
-//        productService.update(fromDB);
+        Product fromDB = productService.getById(2L);
+        fromDB.setPromo(true);
+        fromDB.setPromoPrice(BigDecimal.valueOf(9.99));
+        productService.update(fromDB);
 
 
 
