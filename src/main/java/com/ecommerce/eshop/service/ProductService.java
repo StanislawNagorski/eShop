@@ -100,24 +100,25 @@ public class ProductService {
         return productRepository.findAllByNameContains(name);
     }
 
-    public Product update(Product product){
-        Optional<Product> byId = productRepository.findById(product.getId());
+    public Product update(Long id,Product product){
+        Optional<Product> byId = productRepository.findById(id);
 
         if (byId.isEmpty()){
             throw new ProductCreationException("Cannot update product with id: " + product.getId() + " it dont exists");
         }
-        Product productFromDB = byId.get();
-        productFromDB.setName(product.getName());
-        productFromDB.setDescription(product.getDescription());
-        productFromDB.setCategory(product.getCategory());
-        productFromDB.setPrice(product.getPrice());
-        productFromDB.setProductImages(product.getProductImages());
-        productFromDB.setPromo(product.isPromo());
-        productFromDB.setPromoPrice(product.getPromoPrice());
-        productFromDB.setQuantity(product.getQuantity());
-        productFromDB.setActive(product.isActive());
+//        Product productFromDB = byId.get();
+////        productFromDB.setName(product.getName());
+////        productFromDB.setDescription(product.getDescription());
+////        productFromDB.setCategory(product.getCategory());
+////        productFromDB.setPrice(product.getPrice());
+////        productFromDB.setProductImages(product.getProductImages());
+////        productFromDB.setPromo(product.isPromo());
+////        productFromDB.setPromoPrice(product.getPromoPrice());
+////        productFromDB.setQuantity(product.getQuantity());
+////        productFromDB.setActive(product.isActive());
 
-        return productRepository.save(productFromDB);
+        product.setId(id);
+        return productRepository.save(product);
     }
 
     public void deactivate(Long id){

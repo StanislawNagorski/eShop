@@ -93,10 +93,17 @@ public class ProductController {
         return categoryService.save(category);
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public Product addProduct(@Valid @RequestBody Product product){
         return productService.save(product);
+    }
+
+    //TODO nie działa!
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product){
+        return productService.update(id, product);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
