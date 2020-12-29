@@ -1,4 +1,4 @@
-package com.ecommerce.eshop.models;
+package com.ecommerce.eshop.models.product;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
