@@ -5,6 +5,7 @@ import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +41,9 @@ public class ProductController {
         return ResponseEntity.ok(byId);
     }
 
-    @GetMapping("/{category}")
-    public List<Product> getAllByCategory(@PathVariable String category){
-        return productService.getAllByCategory(category);
+    @GetMapping("/filter")
+    public List<Product> getAllByCategory(@RequestParam String name){
+        return productService.getAllByCategory(name);
     }
 
     @GetMapping("/categories")
