@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,11 +31,11 @@ public class CategoryService {
         return categoryRepository.getFirstByNameLike(categoryName);
     }
 
-    public Set<String> getCategoryNames(){
+    public List<String> getCategoryNames(){
        return categoryRepository.findAll()
-                .stream()
-                .map(ProductCategory::getName)
-                .collect(Collectors.toSet());
+               .stream()
+               .map(ProductCategory::getName)
+               .collect(Collectors.toList());
     }
 
 }

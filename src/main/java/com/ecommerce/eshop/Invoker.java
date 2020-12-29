@@ -32,7 +32,7 @@ public class Invoker implements CommandLineRunner {
         testProduct.setQuantity(40);
         testProduct.setCategory(categoryService.getOneByName("szpada"));
 
-        productService.save(testProduct);
+        //productService.save(testProduct);
 
 
 

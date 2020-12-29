@@ -3,6 +3,7 @@ package com.ecommerce.eshop.service;
 import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
+import com.ecommerce.eshop.utils.exepctions.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class ProductService {
     public Product getById(Long id){
         Optional<Product> byId = productRepository.findById(id);
         if (byId.isEmpty()){
-            throw new ProductCreationException("Cannot find product with id: " + id);
+            throw new ProductNotFoundException("Cannot find product with id: " + id);
         }
         return byId.get();
     }

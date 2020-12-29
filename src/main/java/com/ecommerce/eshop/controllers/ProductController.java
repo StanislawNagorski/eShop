@@ -4,15 +4,20 @@ import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
+import com.ecommerce.eshop.utils.exepctions.ApiError;
 import com.ecommerce.eshop.utils.exepctions.CategoryCreationException;
 import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
+import com.ecommerce.eshop.utils.exepctions.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
@@ -29,29 +34,25 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
-        Product byId;
-        try {
-            byId = productService.getById(id);
-        } catch (ProductCreationException e){
-                return ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
-                        .body(e.getMessage());
-        }
-        return ResponseEntity.ok(byId);
+    @ResponseStatus(HttpStatus.FOUND)
+    public Product getById(@PathVariable Long id){
+        return productService.getById(id);
     }
 
     @GetMapping("/categories")
-    public Set<String> getCategoriesNames(){
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<String> getCategoriesNames(){
         return categoryService.getCategoryNames();
     }
 
     @GetMapping("/promo")
+    @ResponseStatus(HttpStatus.FOUND)
     public List<Product> getAllPromoProducts(){
         return productService.getAllPromoProducts();
     }
 
     @GetMapping("/price")
+    @ResponseStatus(HttpStatus.FOUND)
     public List<Product> getAllByPrice(@RequestParam(required = false) String order,
                                        @RequestParam(required = false) String category){
 
@@ -73,17 +74,19 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.FOUND)
 //   np http://localhost:8080/products/filter?category=szabla
     public List<Product> getAllByCategory(@RequestParam String category){
         return productService.getAllByCategory(category);
     }
 
     @GetMapping("/searchByName")
+    @ResponseStatus(HttpStatus.FOUND)
     public List<Product> getAllByName(@RequestParam String name){
         return productService.getAllByName(name);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addCategory")
     public ResponseEntity<?> addProductCategory(@RequestParam String category){
         ProductCategory productCategory;
         try {
@@ -96,6 +99,16 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productCategory);
     }
 
+    @PostMapping("/addProduct")
+    public ResponseEntity<?> addProduct(){
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiError productNotFoundExceptionHandler(RuntimeException runtimeException){
+        return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
+    }
 
 
 }
