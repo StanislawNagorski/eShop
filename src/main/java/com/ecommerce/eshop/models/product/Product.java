@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -41,4 +42,23 @@ public class Product {
     private LocalDateTime updateTime;
     private boolean isActive;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return isPromo == product.isPromo &&
+                name.equals(product.name) &&
+                description.equals(product.description) &&
+                price.equals(product.price) &&
+                Objects.equals(quantity, product.quantity) &&
+                Objects.equals(category, product.category) &&
+                Objects.equals(promoPrice, product.promoPrice) &&
+                Objects.equals(productImages, product.productImages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, price, quantity, isPromo, category, promoPrice, productImages);
+    }
 }
