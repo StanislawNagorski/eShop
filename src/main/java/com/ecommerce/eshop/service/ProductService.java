@@ -127,11 +127,10 @@ public class ProductService {
             if (product.getCategory().getId() != null) {
                 categoryFromBD = categoryService.getById(product.getCategory().getId());
                 productFromDB.setCategory(categoryFromBD);
-            } else if (product.getCategory().getName() != null) {
+            }
+            if (product.getCategory().getName() != null) {
                 categoryFromBD = categoryService.getOneByName(product.getCategory().getName());
                 productFromDB.setCategory(categoryFromBD);
-            } else {
-                throw new ProductCreationException("Cannot find this product category");
             }
         }
         if (product.getPrice() != null) {
