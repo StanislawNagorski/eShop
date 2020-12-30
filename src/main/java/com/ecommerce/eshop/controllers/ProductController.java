@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_ASCENDING;
+import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_DESCENDING;
+
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -42,17 +45,17 @@ public class ProductController {
     public List<Product> getAllByPrice(@RequestParam(required = false) String order,
                                        @RequestParam(required = false) String category){
 
-        if (category != null && order != null && order.equalsIgnoreCase("asc")){
+        if (category != null && order != null && order.equalsIgnoreCase(ORDER_ASCENDING)){
             return productService.getAllByPriceAndCategoryAsc(category);
         }
-        if (category != null && order != null && order.equalsIgnoreCase("desc")){
+        if (category != null && order != null && order.equalsIgnoreCase(ORDER_DESCENDING)){
             return productService.getAllByPriceAndCategoryDesc(category);
         }
 
-        if (order != null && order.equalsIgnoreCase("asc")){
+        if (order != null && order.equalsIgnoreCase(ORDER_ASCENDING)){
             return productService.getAllProductsByPriceAsc();
         }
-        if (order != null && order.equalsIgnoreCase("desc")){
+        if (order != null && order.equalsIgnoreCase(ORDER_DESCENDING)){
             return productService.getAllProductsByPriceDesc();
         }
 
