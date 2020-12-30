@@ -30,11 +30,11 @@ public class Product {
     private BigDecimal price;
     private Integer quantity;
     private boolean isPromo;
-    @ManyToOne
-    @JoinColumn()
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "category_id")
     private ProductCategory category;
     private BigDecimal promoPrice;
-    @OneToMany (mappedBy = "productId")
+    @OneToMany (mappedBy = "productId", cascade=CascadeType.REMOVE)
     private List<ProductImage> productImages;
     @CreationTimestamp
     private LocalDateTime creationTime;

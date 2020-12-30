@@ -20,45 +20,53 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public Product save(Product product){
-        if (product.getId() != null &&  productRepository.existsById(product.getId())){
-           throw new ProductCreationException("Cannot save product with id: " + product.getId() + " it already exists");
+    public Product save(Product product) {
+        if (product.getId() != null && productRepository.existsById(product.getId())) {
+            throw new ProductCreationException("Cannot save product with id: " + product.getId() + " it already exists");
         }
 
-        if (product.getCategory().getId() == null){
-            ProductCategory oneByName = categoryService.getOneByName(product.getCategory().getName());
-            product.setCategory(oneByName);
+        if (product.getCategory() != null) {
+            ProductCategory categoryFromDB;
+            if (product.getCategory().getId() != null) {
+                categoryFromDB = categoryService.getById(product.getCategory().getId());
+                product.setCategory(categoryFromDB);
+            }
+            if (product.getCategory().getName() != null) {
+                categoryFromDB = categoryService.getOneByName(product.getCategory().getName());
+                product.setCategory(categoryFromDB);
+            }
         }
 
         product.setActive(true);
         return productRepository.save(product);
     }
 
-    public Product getById(Long id){
+
+    public Product getById(Long id) {
         Optional<Product> byId = productRepository.findById(id);
-        if (byId.isEmpty()){
+        if (byId.isEmpty()) {
             throw new ProductNotFoundException("Cannot find product with id: " + id);
         }
         return byId.get();
     }
 
-    public List<Product> getAll(){
+    public List<Product> getAll() {
         return productRepository.findAll();
     }
 
-    public List<Product> getAllByCategory(String category){
+    public List<Product> getAllByCategory(String category) {
         return productRepository.findAllByCategory_Name(category);
     }
 
-    public List<Product> getAllPromoProducts(){
+    public List<Product> getAllPromoProducts() {
         return productRepository.findAllByisPromo(true);
     }
 
-    private List<Product> sortByPriceAscendingWithPromoPrice(List<Product> nonSortedList){
+    private List<Product> sortByPriceAscendingWithPromoPrice(List<Product> nonSortedList) {
         return nonSortedList
                 .stream()
                 .sorted((o1, o2) -> {
-                    if (o1.isPromo() && o2.isPromo()){
+                    if (o1.isPromo() && o2.isPromo()) {
                         return o1.getPromoPrice().compareTo(o2.getPromoPrice());
                     }
 
@@ -75,22 +83,22 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<Product> getAllProductsByPriceAsc(){
-       return sortByPriceAscendingWithPromoPrice(productRepository.findAllByPriceNotNullOrderByPriceAsc());
+    public List<Product> getAllProductsByPriceAsc() {
+        return sortByPriceAscendingWithPromoPrice(productRepository.findAllByPriceNotNullOrderByPriceAsc());
     }
 
-    public List<Product> getAllProductsByPriceDesc(){
+    public List<Product> getAllProductsByPriceDesc() {
         List<Product> allProductsByPrice = getAllProductsByPriceAsc();
         Collections.reverse(allProductsByPrice);
         return allProductsByPrice;
     }
 
-    public List<Product> getAllByPriceAndCategoryAsc(String category){
+    public List<Product> getAllByPriceAndCategoryAsc(String category) {
         List<Product> resultList = productRepository.findAllByPriceNotNullAndCategory_Name(category);
         return sortByPriceAscendingWithPromoPrice(resultList);
     }
 
-    public List<Product> getAllByPriceAndCategoryDesc(String category){
+    public List<Product> getAllByPriceAndCategoryDesc(String category) {
         List<Product> resultList = sortByPriceAscendingWithPromoPrice(getAllByPriceAndCategoryAsc(category));
         Collections.reverse(resultList);
         return resultList;
@@ -100,31 +108,54 @@ public class ProductService {
         return productRepository.findAllByNameContains(name);
     }
 
-    public Product update(Long id,Product product){
+    public Product update(Long id, Product product) {
         Optional<Product> byId = productRepository.findById(id);
 
-        if (byId.isEmpty()){
+        if (byId.isEmpty()) {
             throw new ProductCreationException("Cannot update product with id: " + product.getId() + " it dont exists");
         }
-//        Product productFromDB = byId.get();
-////        productFromDB.setName(product.getName());
-////        productFromDB.setDescription(product.getDescription());
-////        productFromDB.setCategory(product.getCategory());
-////        productFromDB.setPrice(product.getPrice());
-////        productFromDB.setProductImages(product.getProductImages());
-////        productFromDB.setPromo(product.isPromo());
-////        productFromDB.setPromoPrice(product.getPromoPrice());
-////        productFromDB.setQuantity(product.getQuantity());
-////        productFromDB.setActive(product.isActive());
+        Product productFromDB = byId.get();
 
-        product.setId(id);
-        return productRepository.save(product);
+        if (product.getName() != null) {
+            productFromDB.setName(product.getName());
+        }
+        if (product.getDescription() != null) {
+            productFromDB.setDescription(product.getDescription());
+        }
+        if (product.getCategory() != null) {
+            ProductCategory categoryFromBD;
+            if (product.getCategory().getId() != null) {
+                categoryFromBD = categoryService.getById(product.getCategory().getId());
+                productFromDB.setCategory(categoryFromBD);
+            } else if (product.getCategory().getName() != null) {
+                categoryFromBD = categoryService.getOneByName(product.getCategory().getName());
+                productFromDB.setCategory(categoryFromBD);
+            } else {
+                throw new ProductCreationException("Cannot find this product category");
+            }
+        }
+        if (product.getPrice() != null) {
+            productFromDB.setPrice(product.getPrice());
+        }
+        if (product.getProductImages() != null) {
+            productFromDB.setProductImages(product.getProductImages());
+        }
+        if (product.isPromo()) {
+            productFromDB.setPromo(product.isPromo());
+            productFromDB.setPromoPrice(product.getPromoPrice());
+        }
+
+        if (product.getQuantity() != null) {
+            productFromDB.setQuantity(product.getQuantity());
+        }
+
+        return productRepository.save(productFromDB);
     }
 
-    public void deactivate(Long id){
+    public void deactivate(Long id) {
         Optional<Product> byId = productRepository.findById(id);
 
-        if (byId.isEmpty()){
+        if (byId.isEmpty()) {
             throw new ProductCreationException("Cannot remove product with id: " + id);
         }
         Product productFromDB = byId.get();

@@ -3,10 +3,12 @@ package com.ecommerce.eshop.service;
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.repositories.CategoryRepository;
 import com.ecommerce.eshop.utils.exepctions.CategoryCreationException;
+import com.ecommerce.eshop.utils.exepctions.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +30,19 @@ public class CategoryService {
     }
 
     public ProductCategory getOneByName(String categoryName){
-        return categoryRepository.getFirstByNameLike(categoryName);
+        Optional<ProductCategory> firstByName = categoryRepository.getFirstByNameLike(categoryName);
+        if (firstByName.isEmpty()){
+            throw new CategoryNotFoundException("Could not found category named "+ categoryName);
+        }
+        return firstByName.get();
+    }
+
+    public ProductCategory getById(Long id){
+        Optional<ProductCategory> byId = categoryRepository.getById(id);
+        if (byId.isEmpty()){
+            throw new CategoryNotFoundException("Could not found category with id  "+ id);
+        }
+        return byId.get();
     }
 
     public List<String> getCategoryNames(){

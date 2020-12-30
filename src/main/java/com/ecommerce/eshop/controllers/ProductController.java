@@ -4,10 +4,7 @@ import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
-import com.ecommerce.eshop.utils.exepctions.ApiError;
-import com.ecommerce.eshop.utils.exepctions.CategoryCreationException;
-import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
-import com.ecommerce.eshop.utils.exepctions.ProductNotFoundException;
+import com.ecommerce.eshop.utils.exepctions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,7 +103,7 @@ public class ProductController {
         return productService.update(id, product);
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
+    @ExceptionHandler({ProductNotFoundException.class, CategoryNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError productNotFoundExceptionHandler(RuntimeException runtimeException){
         return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
