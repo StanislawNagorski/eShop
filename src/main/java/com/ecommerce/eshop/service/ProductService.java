@@ -151,15 +151,20 @@ public class ProductService {
         return productRepository.save(productFromDB);
     }
 
-    public void deactivate(Long id) {
+    public Product deactivate(Long id) {
         Optional<Product> byId = productRepository.findById(id);
 
         if (byId.isEmpty()) {
-            throw new ProductCreationException("Cannot remove product with id: " + id);
+            throw new ProductNotFoundException("Cannot remove product with id: " + id);
         }
         Product productFromDB = byId.get();
+
+        if (!productFromDB.isActive()){
+            throw new ProductCreationException(String.format("Product of id: %d was already deactivated", id));
+        }
+
         productFromDB.setActive(false);
-        productRepository.save(productFromDB);
+        return productRepository.save(productFromDB);
     }
 
 }
