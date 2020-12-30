@@ -1,7 +1,9 @@
 package com.ecommerce.eshop.service;
 
+import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.repositories.CategoryRepository;
+import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.excepctions.CategoryCreationException;
 import com.ecommerce.eshop.utils.excepctions.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
     public ProductCategory save(String productCategoryName) {
         checkIfCategoryNameIsNotAlreadyInDB(productCategoryName);
@@ -75,8 +78,16 @@ public class CategoryService {
         if (byId.isEmpty()) {
             throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND_BY_ID, id));
         }
+        ProductCategory categoryFromDB = byId.get();
+        List<Product> allByCategory = productRepository.findAllByCategory_Name(categoryFromDB.getName());
+
+        allByCategory.forEach(product -> {
+            product.setCategory(null);
+            productRepository.save(product);
+        });
+
         categoryRepository.deleteById(id);
-        return byId.get();
+        return categoryFromDB;
     }
 
 }
