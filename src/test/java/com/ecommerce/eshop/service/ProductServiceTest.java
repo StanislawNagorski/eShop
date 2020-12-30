@@ -22,7 +22,7 @@ class ProductServiceTest {
 
 
     @Test
-    void save() {
+    void shouldReturnSavedProduct() {
         //Given
         Product testProduct = new Product();
         testProduct.setName("TestName");
@@ -37,7 +37,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void getById() {
+    void shouldReturnNotNull() {
         //Given
         Long idToTest = 1L;
         //When
@@ -47,17 +47,17 @@ class ProductServiceTest {
     }
 
     @Test
-    void getAll() {
+    void shouldReturnProductListOrEmpty() {
         //Given
 
         //When
         List<Product> products = productService.getAll();
         //Then
-        assertFalse(products.isEmpty());
+        assertNotNull(products);
     }
 
     @Test
-    void getAllByCategory() {
+    void shouldOnlyReturnProductsOfSameCategory() {
         //Given
         String expectedCategoryName = "testcategory";
         //When
@@ -74,7 +74,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void getAllPromoProducts() {
+    void shouldReturnOnlyPromoProducts() {
         //Given
 
         //When
@@ -91,7 +91,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void getAllProductsByPriceAsc() {
+    void shouldReturnProductsOrderByPriceOrPromoPrice() {
         //Given
 
         //When
@@ -117,7 +117,7 @@ class ProductServiceTest {
 
 
     @Test
-    void deactivate() {
+    void shouldDeactivateProduct() {
         //Given
         Long idToTest = 1L;
         //When
