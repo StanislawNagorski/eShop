@@ -3,8 +3,8 @@ package com.ecommerce.eshop.service;
 import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.repositories.ProductRepository;
-import com.ecommerce.eshop.utils.exepctions.ProductCreationException;
-import com.ecommerce.eshop.utils.exepctions.ProductNotFoundException;
+import com.ecommerce.eshop.utils.excepctions.ProductCreationException;
+import com.ecommerce.eshop.utils.excepctions.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.ecommerce.eshop.utils.exepctions.ExceptionUtils.*;
+import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.ecommerce.eshop.utils.exepctions;
+package com.ecommerce.eshop.utils.excepctions;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

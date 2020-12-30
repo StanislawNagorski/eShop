@@ -4,17 +4,14 @@ import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
-import com.ecommerce.eshop.utils.exepctions.*;
+import com.ecommerce.eshop.utils.excepctions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -23,7 +20,6 @@ import java.util.UUID;
 public class ProductController {
 
     private final ProductService productService;
-    private final CategoryService categoryService;
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.FOUND)
@@ -35,12 +31,6 @@ public class ProductController {
     @ResponseStatus(HttpStatus.FOUND)
     public Product getById(@PathVariable Long id){
         return productService.getById(id);
-    }
-
-    @GetMapping("/categories")
-    @ResponseStatus(HttpStatus.FOUND)
-    public List<String> getCategoriesNames(){
-        return categoryService.getCategoryNames();
     }
 
     @GetMapping("/promo")
@@ -83,14 +73,6 @@ public class ProductController {
     public List<Product> getAllByName(@RequestParam String name){
         return productService.getAllByName(name);
     }
-
-    @PostMapping("/addCategory")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductCategory addProductCategory(@RequestParam String category){
-        return categoryService.save(category);
-    }
-
-    //TODO PUT and DELETE for category => seperete to category controller!
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)

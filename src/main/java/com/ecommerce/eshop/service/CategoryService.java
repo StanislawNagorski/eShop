@@ -2,8 +2,8 @@ package com.ecommerce.eshop.service;
 
 import com.ecommerce.eshop.models.product.ProductCategory;
 import com.ecommerce.eshop.repositories.CategoryRepository;
-import com.ecommerce.eshop.utils.exepctions.CategoryCreationException;
-import com.ecommerce.eshop.utils.exepctions.CategoryNotFoundException;
+import com.ecommerce.eshop.utils.excepctions.CategoryCreationException;
+import com.ecommerce.eshop.utils.excepctions.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.ecommerce.eshop.utils.exepctions.ExceptionUtils.*;
+import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
 
 @Service
 @RequiredArgsConstructor
