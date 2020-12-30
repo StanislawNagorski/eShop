@@ -19,39 +19,55 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public ProductCategory save(String productCategoryName){
-        String lowerCaseCategoryName = productCategoryName.toLowerCase();
-        if (getCategoryNames().contains(lowerCaseCategoryName)){
-            throw new CategoryCreationException(
-                    String.format(CATEGORY_CANNOT_SAVE_DUPLICATE, lowerCaseCategoryName));
-        }
+    public ProductCategory save(String productCategoryName) {
+        checkIfCategoryNameIsNotAlreadyInDB(productCategoryName);
         ProductCategory productCategory = new ProductCategory();
-        productCategory.setName(lowerCaseCategoryName);
+        productCategory.setName(productCategoryName.toLowerCase());
 
         return categoryRepository.save(productCategory);
     }
 
-    public ProductCategory getOneByName(String categoryName){
+    private void checkIfCategoryNameIsNotAlreadyInDB(String categoryName) {
+        String lowerCaseCategoryName = categoryName.toLowerCase();
+        if (getCategoryNames().contains(lowerCaseCategoryName)) {
+            throw new CategoryCreationException(
+                    String.format(CATEGORY_CANNOT_SAVE_DUPLICATE, lowerCaseCategoryName));
+        }
+    }
+
+    public ProductCategory update(Long id, ProductCategory category) {
+        checkIfCategoryNameIsNotAlreadyInDB(category.getName());
+
+        Optional<ProductCategory> byId = categoryRepository.getById(id);
+        if (byId.isEmpty()) {
+            throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND_BY_ID, id));
+        }
+        ProductCategory categoryFromDB = byId.get();
+        categoryFromDB.setName(category.getName().toLowerCase());
+        return categoryRepository.save(categoryFromDB);
+    }
+
+    public ProductCategory getOneByName(String categoryName) {
         Optional<ProductCategory> firstByName = categoryRepository.getFirstByNameLike(categoryName);
-        if (firstByName.isEmpty()){
+        if (firstByName.isEmpty()) {
             throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND_BY_NAME, categoryName));
         }
         return firstByName.get();
     }
 
-    public ProductCategory getById(Long id){
+    public ProductCategory getById(Long id) {
         Optional<ProductCategory> byId = categoryRepository.getById(id);
-        if (byId.isEmpty()){
-            throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND_BY_ID,id));
+        if (byId.isEmpty()) {
+            throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND_BY_ID, id));
         }
         return byId.get();
     }
 
-    public List<String> getCategoryNames(){
-       return categoryRepository.findAll()
-               .stream()
-               .map(ProductCategory::getName)
-               .collect(Collectors.toList());
+    public List<String> getCategoryNames() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(ProductCategory::getName)
+                .collect(Collectors.toList());
     }
 
 }

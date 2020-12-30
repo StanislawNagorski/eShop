@@ -1,8 +1,6 @@
 package com.ecommerce.eshop.controllers;
 
 import com.ecommerce.eshop.models.product.Product;
-import com.ecommerce.eshop.models.product.ProductCategory;
-import com.ecommerce.eshop.service.CategoryService;
 import com.ecommerce.eshop.service.ProductService;
 import com.ecommerce.eshop.utils.excepctions.*;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +84,7 @@ public class ProductController {
         return productService.update(id, product);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Product deleteProduct(@PathVariable Long id){
         return productService.deactivate(id);

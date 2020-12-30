@@ -24,7 +24,7 @@ public class ProductService {
 
     public Product save(Product product) {
         if (product.getId() != null && productRepository.existsById(product.getId())) {
-            throw new ProductCreationException(String.format(PRODUCT_CANNOT_SAVE,product.getId()));
+            throw new ProductCreationException(String.format(PRODUCT_CANNOT_SAVE, product.getId()));
         }
 
         if (product.getCategory() != null) {
@@ -47,7 +47,7 @@ public class ProductService {
     public Product getById(Long id) {
         Optional<Product> byId = productRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND,id));
+            throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND, id));
         }
         return byId.get();
     }
@@ -114,7 +114,7 @@ public class ProductService {
         Optional<Product> byId = productRepository.findById(id);
 
         if (byId.isEmpty()) {
-            throw new ProductCreationException(String.format(PRODUCT_CANNOT_FIND,product.getId()));
+            throw new ProductCreationException(String.format(PRODUCT_CANNOT_FIND, product.getId()));
         }
         Product productFromDB = byId.get();
 
@@ -157,11 +157,11 @@ public class ProductService {
         Optional<Product> byId = productRepository.findById(id);
 
         if (byId.isEmpty()) {
-            throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND,id));
+            throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND, id));
         }
         Product productFromDB = byId.get();
 
-        if (!productFromDB.isActive()){
+        if (!productFromDB.isActive()) {
             throw new ProductCreationException(String.format(PRODUCT_CANNOT_DEACTIVATE, id));
         }
 
