@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.ecommerce.eshop.utils.exepctions.ExceptionUtils.*;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -22,7 +24,7 @@ public class ProductService {
 
     public Product save(Product product) {
         if (product.getId() != null && productRepository.existsById(product.getId())) {
-            throw new ProductCreationException("Cannot save product with id: " + product.getId() + " it already exists");
+            throw new ProductCreationException(String.format(PRODUCT_CANNOT_SAVE,product.getId()));
         }
 
         if (product.getCategory() != null) {
@@ -45,7 +47,7 @@ public class ProductService {
     public Product getById(Long id) {
         Optional<Product> byId = productRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new ProductNotFoundException("Cannot find product with id: " + id);
+            throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND,id));
         }
         return byId.get();
     }
@@ -112,7 +114,7 @@ public class ProductService {
         Optional<Product> byId = productRepository.findById(id);
 
         if (byId.isEmpty()) {
-            throw new ProductCreationException("Cannot update product with id: " + product.getId() + " it dont exists");
+            throw new ProductCreationException(String.format(PRODUCT_CANNOT_FIND,product.getId()));
         }
         Product productFromDB = byId.get();
 
@@ -155,12 +157,12 @@ public class ProductService {
         Optional<Product> byId = productRepository.findById(id);
 
         if (byId.isEmpty()) {
-            throw new ProductNotFoundException("Cannot remove product with id: " + id);
+            throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND,id));
         }
         Product productFromDB = byId.get();
 
         if (!productFromDB.isActive()){
-            throw new ProductCreationException(String.format("Product of id: %d was already deactivated", id));
+            throw new ProductCreationException(String.format(PRODUCT_CANNOT_DEACTIVATE, id));
         }
 
         productFromDB.setActive(false);
