@@ -37,8 +37,12 @@ public class ProductCategoryController {
     public ProductCategory updateProductCategory(@PathVariable Long id, @RequestBody ProductCategory category) {
         return categoryService.update(id, category);
     }
-    //TODO PUT and DELETE for category => seperete to category controller!
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ProductCategory deleteProductCategory(@PathVariable Long id){
+        return categoryService.removeById(id);
+    }
 
     @ExceptionHandler(CategoryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

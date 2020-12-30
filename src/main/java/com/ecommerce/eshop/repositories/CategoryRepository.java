@@ -11,4 +11,6 @@ public interface CategoryRepository extends JpaRepository<ProductCategory, Long>
 
     Optional<ProductCategory> getFirstByNameLike(String name);
     Optional<ProductCategory> getById(Long id);
+
+
 }

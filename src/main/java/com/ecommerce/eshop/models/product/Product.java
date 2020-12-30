@@ -31,7 +31,6 @@ public class Product {
     private Integer quantity;
     private boolean isPromo;
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "category_id")
     private ProductCategory category;
     private BigDecimal promoPrice;
     @OneToMany (mappedBy = "productId", cascade=CascadeType.REMOVE)

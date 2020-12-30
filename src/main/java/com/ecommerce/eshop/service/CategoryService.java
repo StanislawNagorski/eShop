@@ -70,4 +70,13 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
+    public ProductCategory removeById(Long id){
+        Optional<ProductCategory> byId = categoryRepository.getById(id);
+        if (byId.isEmpty()) {
+            throw new CategoryNotFoundException(String.format(CATEGORY_NOT_FOUND_BY_ID, id));
+        }
+        categoryRepository.deleteById(id);
+        return byId.get();
+    }
+
 }
