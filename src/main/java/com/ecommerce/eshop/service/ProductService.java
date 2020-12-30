@@ -150,6 +150,7 @@ public class ProductService {
         if (product.getQuantity() != null) {
             productFromDB.setQuantity(product.getQuantity());
         }
+        productFromDB.setActive(product.isActive());
 
         return productRepository.save(productFromDB);
     }

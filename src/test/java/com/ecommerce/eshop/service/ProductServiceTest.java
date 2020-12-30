@@ -98,13 +98,14 @@ class ProductServiceTest {
         List<Product> allProductsByPriceAsc = productService.getAllProductsByPriceAsc();
         BigDecimal previousPrice = BigDecimal.ZERO;
         boolean everyNextPriceIsHigher = true;
+
         for (Product product : allProductsByPriceAsc) {
             BigDecimal currentPrice = product.getPrice();
             if (product.isPromo()){
                 currentPrice = product.getPromoPrice();
             }
 
-            if ((currentPrice.compareTo(previousPrice)) <= 0) {
+            if ((previousPrice.compareTo(currentPrice)) > 0) {
                 everyNextPriceIsHigher = false;
                 break;
             }
@@ -120,10 +121,13 @@ class ProductServiceTest {
     void shouldDeactivateProduct() {
         //Given
         Long idToTest = 1L;
+        Product productFromDB = productService.getById(idToTest);
+        productFromDB.setActive(true);
+        productService.update(idToTest, productFromDB);
         //When
         productService.deactivate(idToTest);
-        Product productFromDB = productService.getById(idToTest);
+        Product deactivatedProduct = productService.getById(idToTest);
         //Then
-        assertFalse(productFromDB.isActive());
+        assertFalse(deactivatedProduct.isActive());
     }
 }
