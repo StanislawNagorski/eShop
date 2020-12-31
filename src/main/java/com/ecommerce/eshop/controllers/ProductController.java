@@ -40,6 +40,13 @@ public class ProductController {
         return productService.getAllPromoProducts();
     }
 
+    @GetMapping("/filter") //TODO przepisać na category param
+    @ResponseStatus(HttpStatus.FOUND)
+//   np http://localhost:8080/products/filter?category=szabla
+    public List<Product> getAllByCategory(@RequestParam String category){
+        return productService.getAllByCategory(category);
+    }
+
     @GetMapping("/price")
     @ResponseStatus(HttpStatus.FOUND)
     public List<Product> getAllByPrice(@RequestParam(required = false) String order,
@@ -62,14 +69,7 @@ public class ProductController {
         return productService.getAllProductsByPriceAsc();
     }
 
-    @GetMapping("/filter")
-    @ResponseStatus(HttpStatus.FOUND)
-//   np http://localhost:8080/products/filter?category=szabla
-    public List<Product> getAllByCategory(@RequestParam String category){
-        return productService.getAllByCategory(category);
-    }
-
-    @GetMapping("/searchByName")
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.FOUND)
     public List<Product> getAllByName(@RequestParam String name){
         return productService.getAllByName(name);

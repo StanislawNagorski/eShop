@@ -1,7 +1,6 @@
 package com.ecommerce.eshop.service;
 
 import com.ecommerce.eshop.models.product.Product;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +100,7 @@ class ProductServiceTest {
 
         for (Product product : allProductsByPriceAsc) {
             BigDecimal currentPrice = product.getPrice();
-            if (product.isPromo()){
+            if (product.isPromo()) {
                 currentPrice = product.getPromoPrice();
             }
 
