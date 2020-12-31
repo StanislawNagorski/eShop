@@ -81,6 +81,18 @@ POST to: http://NOT_HOSTED_YET/products/categories?category=newCategory will ret
        "name": "newcategory"
 }
 ```
+
+### Update category by id
+PUT to: http://NOT_HOSTED_YET/products/categories/5, note: requires body.
+```
+{
+    "name": "updated test category name"
+}
+```
+
+### Delete category by id
+DELETE to: http://NOT_HOSTED_YET/products/categories/5, will return a deleted category.
+
   
 ### Post new product
  POST to: http://NOT_HOSTED_YET/products, will return a created object.
