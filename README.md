@@ -21,7 +21,37 @@ Technology stack:
 - Rest Api,
 - TypeScrip, Angular,
 
-What I have learned in this project:
+Resources
 -
-- 
+- Products http://NOT_HOSTED_YET/products
+- Categories http://NOT_HOSTED_YET/products/categories
+
+How to
+-
+### Get all products
+ http://NOT_HOSTED_YET/products
+### Get single product
+- by product id:
+  - http://NOT_HOSTED_YET/products/1
+- by product name:
+  - http://NOT_HOSTED_YET/products/exampleProductName
+### Get categories of products
+http://NOT_HOSTED_YET/products/categories
+### Get all product by category
+http://NOT_HOSTED_YET/products/filter?category=exampleCategory
+### Get all products with promo price
+http://NOT_HOSTED_YET/products/promo
+### Get all products ordered by price
+- Ascending price
+  * http://NOT_HOSTED_YET/products/price?order=asc
+- Ascending price by category
+  * http://NOT_HOSTED_YET/products/price?order=asc&category=exampleCategory
+
+- Descending price
+  * http://NOT_HOSTED_YET/products/price?order=desc
+- Ascending price by category
+  * http://NOT_HOSTED_YET/products/price?order=desc&category=exampleCategory
+
+
+
 

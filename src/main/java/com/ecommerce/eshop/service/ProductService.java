@@ -58,7 +58,8 @@ public class ProductService {
     }
 
     public List<Product> getAllByCategory(String category) {
-        return productRepository.findAllByCategory_Name(category);
+        String lowerCaseCategory = category.toLowerCase();
+        return productRepository.findAllByCategory_Name(lowerCaseCategory);
     }
 
     public List<Product> getAllPromoProducts() {
