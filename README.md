@@ -26,7 +26,8 @@ Resources
 - Products
    - http://NOT_HOSTED_YET/products
 
-```{
+```
+{
     "name": "Kaftan szkoły wilka",
     "description": "Kiedy na planszy stajesz przeciwko potworom",
     "price": 350.00,
