@@ -45,6 +45,7 @@ Resources
 ```
 
 - Categories names:
+
   * http://NOT_HOSTED_YET/products/categories
 
 How to and all available routes
@@ -56,11 +57,12 @@ by product id:
 http://NOT_HOSTED_YET/products/1
 ### Get categories of products
 http://NOT_HOSTED_YET/products/categories
-### Get all product by category
+### Get all product 
+  - by category
 http://NOT_HOSTED_YET/products/filter?category=exampleCategory
-### Get all product by product name
+  - by product name
 http://NOT_HOSTED_YET/products/search?name=ExampleName
-### Get all products with promo price
+  - with promo price
 http://NOT_HOSTED_YET/products/promo
 ### Get all products ordered by price
 - Ascending price
