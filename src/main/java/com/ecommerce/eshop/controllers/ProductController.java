@@ -4,8 +4,12 @@ import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.service.ProductService;
 import com.ecommerce.eshop.utils.excepctions.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -105,5 +109,14 @@ public class ProductController {
         return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }
 
 }
