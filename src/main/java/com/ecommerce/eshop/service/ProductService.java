@@ -2,8 +2,6 @@ package com.ecommerce.eshop.service;
 
 import com.ecommerce.eshop.models.product.Product;
 import com.ecommerce.eshop.models.product.ProductCategory;
-import com.ecommerce.eshop.repositories.CategoryRepository;
-import com.ecommerce.eshop.repositories.ImageRepository;
 import com.ecommerce.eshop.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.excepctions.ProductCreationException;
 import com.ecommerce.eshop.utils.excepctions.ProductNotFoundException;
@@ -42,13 +40,16 @@ public class ProductService {
             }
         }
 
-        if (!product.getProductImages().isEmpty()){
+        product.setActive(true);
+        Product savedProduct = productRepository.save(product);
+        Product productFromDB = productRepository.getOne(savedProduct.getId());
 
-            product.getProductImages().forEach(image -> imageService.saveImageToProduct(product, image));
+        if (!product.getProductImages().isEmpty()) {
+            product.getProductImages().forEach(image -> imageService.saveImageToProduct(productFromDB, image));
         }
 
-        product.setActive(true);
-        return productRepository.save(product);
+        return productRepository.save(productFromDB);
+
     }
 
 
