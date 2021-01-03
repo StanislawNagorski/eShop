@@ -110,7 +110,15 @@ DELETE to: http://NOT_HOSTED_YET/products/categories/5, will return a deleted ca
          "name": "miecz_długi"
      },
      "promoPrice": 349.99,
-     "productImages": [//NOT IMPLANTED YET],
+      "productImages": [
+             {
+                 "imageUrl": exemple_url.jpg"
+             },
+               {
+                 "imageUrl": "exemple_url1.jpg"
+             }
+     
+         ],
      "active": true,
      "promo": true
  } 
