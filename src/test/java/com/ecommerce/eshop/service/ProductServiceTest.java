@@ -1,6 +1,7 @@
 package com.ecommerce.eshop.service;
 
 import com.ecommerce.eshop.models.product.Product;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Ignore
 class ProductServiceTest {
 
     @Autowired

@@ -34,7 +34,7 @@ public class Product {
     @ManyToOne(cascade = CascadeType.DETACH)
     private ProductCategory category;
     private BigDecimal promoPrice;
-    @OneToMany (mappedBy = "productId", cascade=CascadeType.REMOVE)
+    @OneToMany (mappedBy = "productId")
     private List<ProductImage> productImages;
     @CreationTimestamp
     private LocalDateTime creationTime;
