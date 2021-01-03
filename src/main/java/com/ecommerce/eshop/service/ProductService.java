@@ -39,17 +39,16 @@ public class ProductService {
                 product.setCategory(categoryFromDB);
             }
         }
-
         product.setActive(true);
-        Product savedProduct = productRepository.save(product);
-        Product productFromDB = productRepository.getOne(savedProduct.getId());
 
         if (!product.getProductImages().isEmpty()) {
+            Product savedProduct = productRepository.save(product);
+            Product productFromDB = productRepository.getOne(savedProduct.getId());
             product.getProductImages().forEach(image -> imageService.saveImageToProduct(productFromDB, image));
+            return productRepository.save(productFromDB);
         }
 
-        return productRepository.save(productFromDB);
-
+        return productRepository.save(product);
     }
 
 
