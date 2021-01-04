@@ -16,40 +16,40 @@ import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_
 import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_DESCENDING;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/products")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
     @GetMapping("")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllProducts() {
         return productService.getAll();
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Product getById(@PathVariable Long id) {
         return productService.getById(id);
     }
 
     @GetMapping("/promo")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllPromoProducts() {
         return productService.getAllPromoProducts();
     }
 
-    @GetMapping("/filter") //TODO przepisać na category param
-    @ResponseStatus(HttpStatus.FOUND)
+    @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.OK)
 //   np http://localhost:8080/products/filter?category=szabla
     public List<Product> getAllByCategory(@RequestParam String category) {
         return productService.getAllByCategory(category);
     }
 
     @GetMapping("/price")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllByPrice(@RequestParam(required = false) String order,
                                        @RequestParam(required = false) String category) {
 
@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllByName(@RequestParam String name) {
         return productService.getAllByName(name);
     }
@@ -83,13 +83,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         return productService.update(id, product);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public Product deleteProduct(@PathVariable Long id) {
         return productService.deactivate(id);
     }
@@ -107,3 +107,4 @@ public class ProductController {
     }
 
 }
+
