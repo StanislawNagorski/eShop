@@ -57,7 +57,7 @@ public class OrderService {
     }
 
     public List<CustomerOrder> getAllThatIncludesProduct(Product product){
-        return Collections.emptyList();
+        return orderRepository.findAllByProductsIsContaining(product);
     }
 
     public CustomerOrder deleteById(Long id){
