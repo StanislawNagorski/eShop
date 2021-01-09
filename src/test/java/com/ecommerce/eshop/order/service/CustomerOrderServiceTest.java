@@ -41,11 +41,6 @@ class CustomerOrderServiceTest {
         products = List.of(product,product2);
     }
 
-    @After
-    void cleanUp(){
-        //TODO delete test entry
-    }
-
     @Test()
     void shouldTrowExceptionWhenSavingOrderWithoutAnyProducts() {
         //Given
@@ -122,5 +117,15 @@ class CustomerOrderServiceTest {
     @Test
     void shouldReturnListOfOrdersByGivenStatus() {
 
+    }
+
+    @Test
+    void shouldReturnTrueIfDeleteIsSuccessful(){
+        //Given
+
+        //When
+        orderService.deleteById(TEST_ORDER_ID);
+        //Then
+        assertTrue(orderService.getByID(TEST_ORDER_ID).isEmpty());
     }
 }
