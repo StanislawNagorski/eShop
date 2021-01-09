@@ -1,13 +1,11 @@
 package com.ecommerce.eshop.order.repositories;
 
-import com.ecommerce.eshop.order.models.Order;
+import com.ecommerce.eshop.order.models.CustomerOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<CustomerOrder, Long> {
     //by total price
     //by total quantity
     //by product

@@ -67,14 +67,14 @@ http://NOT_HOSTED_YET/products/search?name=ExampleName
 http://NOT_HOSTED_YET/products/promo
 ### Get all products ordered by price
 - Ascending price
-  * http://NOT_HOSTED_YET/products/price?order=asc
+  * http://NOT_HOSTED_YET/products/price?customerOrder=asc
 - Ascending price by category
-  * http://NOT_HOSTED_YET/products/price?order=asc&category=exampleCategory
+  * http://NOT_HOSTED_YET/products/price?customerOrder=asc&category=exampleCategory
 
 - Descending price
-  * http://NOT_HOSTED_YET/products/price?order=desc
+  * http://NOT_HOSTED_YET/products/price?customerOrder=desc
 - Descending price by category
-  * http://NOT_HOSTED_YET/products/price?order=desc&category=exampleCategory
+  * http://NOT_HOSTED_YET/products/price?customerOrder=desc&category=exampleCategory
 
 ### Post new category
 POST to: http://NOT_HOSTED_YET/products/categories?category=newCategory will return:

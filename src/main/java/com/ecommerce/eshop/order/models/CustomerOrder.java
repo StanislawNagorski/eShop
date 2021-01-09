@@ -14,11 +14,11 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Data
-public class Order {
+public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @ManyToMany //TODO jak przetrzymywać produkt i ilość? Mapa? Klasa jako nie Entity?
     private List<Product> products;
     private BigDecimal totalAmount;
     private Integer totalQuantity;

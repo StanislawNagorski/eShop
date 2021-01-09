@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+//TODO check if you can put here all api handlers from controllers
 @RestControllerAdvice
 public class ProductExceptionHandler {
 
