@@ -27,4 +27,5 @@ public class Order {
     private LocalDateTime creationTime;
     @UpdateTimestamp
     private LocalDateTime updateTime;
+    private OrderStatus orderStatus;
 }

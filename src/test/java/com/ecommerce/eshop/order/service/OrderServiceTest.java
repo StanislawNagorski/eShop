@@ -28,6 +28,16 @@ class OrderServiceTest {
     }
 
     @Test
+    void shouldReturnListOfOrdersSortedByTotalAmount(){
+
+    }
+
+    @Test
+    void shouldReturnListOfOrdersSortedByTotalQuantity(){
+
+    }
+
+    @Test
     void shouldReturnListOfOrderBeforeGivenDate(){
 
     }
@@ -39,6 +49,11 @@ class OrderServiceTest {
 
     @Test
     void shouldReturnListOfOrderBetweenGivenDates(){
+
+    }
+
+    @Test
+    void shouldReturnListOfOrdersByGivenStatus(){
 
     }
 }
