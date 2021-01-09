@@ -50,7 +50,7 @@ class CustomerOrderServiceTest {
         assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
     }
 
-    @Ignore //TODO unIgnore after implementing delete
+    @Ignore
     @Test
     void shouldSaveOrderToDBandReturnItById() {
         //Given
@@ -74,10 +74,6 @@ class CustomerOrderServiceTest {
         assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
     }
 
-    @Test
-    void shouldSetStatusOfOrderToCreatedWhenSaved() {
-        assertSame(orderService.getByID(TEST_ORDER_ID).get().getOrderStatus(), OrderStatus.CREATED);
-    }
 
     @Test
     void shouldReturnAllOrders() {
