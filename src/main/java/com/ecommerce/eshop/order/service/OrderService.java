@@ -63,8 +63,16 @@ public class OrderService {
         return orderRepository.findAllByOrderByCreationTimeDesc();
     }
 
-    public List<CustomerOrder> getAllByTotalAmountDescending(){
+    public List<CustomerOrder> getAllByTotalAmountDesc(){
         return orderRepository.findAllByOrderByTotalAmountDesc();
+    }
+
+    public List<CustomerOrder> getAllByTotalQuantityDesc(){
+        return orderRepository.findAllByOrderByTotalQuantityDesc();
+    }
+
+    public List<CustomerOrder> getAllByStatus(OrderStatus orderStatus){
+        return orderRepository.findAllByOrderStatus(orderStatus);
     }
 
     public CustomerOrder deleteById(Long id){

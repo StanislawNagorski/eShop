@@ -5,10 +5,8 @@ import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.service.ProductService;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,15 +132,14 @@ class CustomerOrderServiceTest {
     @Test
     void shouldReturnListOfOrdersSortedByTotalAmount() {
         //Given
-        List<CustomerOrder> allByTotalAmountDescending = orderService.getAllByTotalAmountDescending();
+        List<CustomerOrder> allByTotalAmountDescending = orderService.getAllByTotalAmountDesc();
         //When
         boolean everyNextOrderIsTotalAmountIsLess = true;
         for (int i = 1; i < allByTotalAmountDescending.size(); i++) {
             BigDecimal previousTotalAmount = allByTotalAmountDescending.get(i-1).getTotalAmount();
             BigDecimal currentTotalAmount = allByTotalAmountDescending.get(i).getTotalAmount();
 
-            System.out.println("previous value: " + previousTotalAmount);
-            System.out.println("current value: " + currentTotalAmount);
+            System.out.println("previous value: " + previousTotalAmount + "current value: " + currentTotalAmount);
 
             if (previousTotalAmount.compareTo(currentTotalAmount) < 0) {
                 everyNextOrderIsTotalAmountIsLess = false;
@@ -155,7 +152,40 @@ class CustomerOrderServiceTest {
 
     @Test
     void shouldReturnListOfOrdersSortedByTotalQuantity() {
+        //Given
+        List<CustomerOrder> allByTotalQuantityDesc = orderService.getAllByTotalQuantityDesc();
+        //When
+        boolean everyNextOrderTotalQuantityIsLess = true;
+        for (int i = 1; i < allByTotalQuantityDesc.size(); i++) {
+            Integer previousTotalQuantity = allByTotalQuantityDesc.get(i-1).getTotalQuantity();
+            Integer currentTotalQuantity = allByTotalQuantityDesc.get(i).getTotalQuantity();
 
+            System.out.println("previous value: " + previousTotalQuantity + "current value: " + currentTotalQuantity);
+
+            if (previousTotalQuantity < currentTotalQuantity) {
+                everyNextOrderTotalQuantityIsLess = false;
+                break;
+            }
+        }
+        //Then
+        assertTrue(everyNextOrderTotalQuantityIsLess);
+    }
+
+    @Test
+    void shouldReturnListOfOrdersByGivenStatus() {
+        //Given
+        OrderStatus expectedStatus = OrderStatus.CREATED;
+        List<CustomerOrder> allByStatus = orderService.getAllByStatus(expectedStatus);
+        //When
+        boolean allAreSameStatus = true;
+        for (CustomerOrder byStatus : allByStatus) {
+            if (byStatus.getOrderStatus() != expectedStatus) {
+                allAreSameStatus = false;
+                break;
+            }
+        }
+        //Then
+        assertTrue(allAreSameStatus);
     }
 
     @Test
@@ -170,11 +200,6 @@ class CustomerOrderServiceTest {
 
     @Test
     void shouldReturnListOfOrderBetweenGivenDates() {
-
-    }
-
-    @Test
-    void shouldReturnListOfOrdersByGivenStatus() {
 
     }
 
