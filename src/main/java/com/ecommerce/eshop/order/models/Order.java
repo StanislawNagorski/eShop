@@ -2,7 +2,6 @@ package com.ecommerce.eshop.order.models;
 
 import com.ecommerce.eshop.product.models.Product;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,5 +26,6 @@ public class Order {
     private LocalDateTime creationTime;
     @UpdateTimestamp
     private LocalDateTime updateTime;
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 }
