@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +31,7 @@ class CustomerOrderServiceTest {
     ProductService productService;
 
     final Long EXISTING_PRODUCT_ID = 7L;
-    //TODO: jak napisać test żeby nie zmieniać tego ręcznie? Wyciągać z listy i brac ostatni?
+    //TODO: jak napisać test żeby nie były zależne od obecnego stanu DB? co pózniej jeśli będzie wersja produkcyjna
     final Long TEST_ORDER_ID = 2L;
     Product product;
     Product product2;
@@ -130,6 +131,24 @@ class CustomerOrderServiceTest {
     }
 
     @Test
+    void shouldReturnListOfOrderBetweenGivenDates() {
+        //Given
+        LocalDateTime secondEntryTime = LocalDateTime.of(2021,1,9,15,30);
+        LocalDateTime now = LocalDateTime.now();
+        List<CustomerOrder> allBetweenDates = orderService.getAllBetweenDates(secondEntryTime, now);
+        //When
+        boolean allOrdersAreBetweenDates = true;
+        for (CustomerOrder order : allBetweenDates) {
+            if (order.getCreationTime().isBefore(secondEntryTime)){
+                allOrdersAreBetweenDates = false;
+                break;
+            }
+        }
+        //Then
+        assertTrue(allOrdersAreBetweenDates);
+    }
+
+    @Test
     void shouldReturnListOfOrdersSortedByTotalAmount() {
         //Given
         List<CustomerOrder> allByTotalAmountDescending = orderService.getAllByTotalAmountDesc();
@@ -188,20 +207,6 @@ class CustomerOrderServiceTest {
         assertTrue(allAreSameStatus);
     }
 
-    @Test
-    void shouldReturnListOfOrderBeforeGivenDate() {
-
-    }
-
-    @Test
-    void shouldReturnListOfOrderAfterGivenDate() {
-
-    }
-
-    @Test
-    void shouldReturnListOfOrderBetweenGivenDates() {
-
-    }
 
     @Ignore
     @Test
