@@ -30,11 +30,15 @@ class CustomerOrderServiceTest {
 
     final Long EXISTING_PRODUCT_ID = 7L;
     final Long TEST_ORDER_ID = 1L;
+    List<Product> products;
     Product product;
+    Product product2;
 
     @Before
     void setUp(){
         product = productService.getById(EXISTING_PRODUCT_ID);
+        product2 = productService.getById(EXISTING_PRODUCT_ID+1);
+        products = List.of(product,product2);
     }
 
     @After
@@ -42,27 +46,6 @@ class CustomerOrderServiceTest {
         //TODO delete test entry
     }
 
-    @Ignore //TODO unIgnore after implementing delete
-    @Test
-    void shouldSaveOrderToDBandReturnItById() {
-        //Given
-        CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setProducts(List.of(product));
-        //When
-        orderService.save(customerOrder);
-        //Then
-        assertTrue(orderService.getByID(TEST_ORDER_ID).isPresent());
-    }
-
-    @Test()
-    void shouldTrowExceptionIfOrderAlreadyExists() {
-        //Given
-        CustomerOrder testCustomerOrder = new CustomerOrder();
-        //When
-        testCustomerOrder.setId(TEST_ORDER_ID);
-        //Then
-        assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
-    }
     @Test()
     void shouldTrowExceptionWhenSavingOrderWithoutAnyProducts() {
         //Given
@@ -72,11 +55,31 @@ class CustomerOrderServiceTest {
         //Then
         assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
     }
+
+    @Ignore //TODO unIgnore after implementing delete
+    @Test
+    void shouldSaveOrderToDBandReturnItById() {
+        //Given
+        CustomerOrder customerOrder = new CustomerOrder();
+        customerOrder.setProducts(products);
+        //When
+        orderService.save(customerOrder);
+        //Then
+        assertTrue(orderService.getByID(TEST_ORDER_ID).isPresent());
+    }
+    @Test()
+    void shouldTrowExceptionIfOrderAlreadyExists() {
+        //Given
+        CustomerOrder testCustomerOrder = new CustomerOrder();
+        //When
+        testCustomerOrder.setId(TEST_ORDER_ID);
+        //Then
+        assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
+    }
     @Test
     void shouldSetStatusOfOrderToCreatedWhenSaved(){
         assertSame(orderService.getByID(TEST_ORDER_ID).get().getOrderStatus(), OrderStatus.CREATED);
     }
-
 
     @Test
     void shouldReturnAllOrders() {

@@ -1,6 +1,7 @@
 package com.ecommerce.eshop.order.service;
 
 import com.ecommerce.eshop.order.exceptions.OrderCreationException;
+import com.ecommerce.eshop.order.exceptions.OrderNotFoundException;
 import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.order.repositories.OrderRepository;
@@ -57,6 +58,15 @@ public class OrderService {
 
     public List<CustomerOrder> getAllThatIncludesProduct(Product product){
         return Collections.emptyList();
+    }
+
+    public CustomerOrder deleteById(Long id){
+        Optional<CustomerOrder> orderFromDB = orderRepository.findById(id);
+        if (orderFromDB.isEmpty()){
+            throw new OrderNotFoundException(String.format(ExceptionUtils.ORDER_NOT_FOUND, id));
+        }
+        orderRepository.deleteById(id);
+        return orderFromDB.get();
     }
 
 
