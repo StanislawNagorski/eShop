@@ -2,6 +2,7 @@ package com.ecommerce.eshop.order.service;
 
 import com.ecommerce.eshop.order.exceptions.OrderCreationException;
 import com.ecommerce.eshop.order.models.CustomerOrder;
+import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.service.ProductService;
 import org.junit.After;
@@ -41,7 +42,7 @@ class CustomerOrderServiceTest {
         //TODO delete test entry
     }
 
-    @Ignore //TODO unIgnore afret implementing delete
+    @Ignore //TODO unIgnore after implementing delete
     @Test
     void shouldSaveOrderToDBandReturnItById() {
         //Given
@@ -58,7 +59,7 @@ class CustomerOrderServiceTest {
         //Given
         CustomerOrder testCustomerOrder = new CustomerOrder();
         //When
-        testCustomerOrder.setProducts(Collections.emptyList());
+        testCustomerOrder.setId(TEST_ORDER_ID);
         //Then
         assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
     }
@@ -73,12 +74,9 @@ class CustomerOrderServiceTest {
     }
     @Test
     void shouldSetStatusOfOrderToCreatedWhenSaved(){
-
+        assertSame(orderService.getByID(TEST_ORDER_ID).get().getOrderStatus(), OrderStatus.CREATED);
     }
 
-    @Test
-    void shouldReturnOrderById() {
-    }
 
     @Test
     void shouldReturnAllOrders() {
