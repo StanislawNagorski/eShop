@@ -1,7 +1,6 @@
-package com.ecommerce.eshop.models.product;
+package com.ecommerce.eshop.product.models;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 

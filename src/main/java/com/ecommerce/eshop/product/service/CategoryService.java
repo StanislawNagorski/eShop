@@ -1,11 +1,11 @@
-package com.ecommerce.eshop.service;
+package com.ecommerce.eshop.product.service;
 
-import com.ecommerce.eshop.models.product.Product;
-import com.ecommerce.eshop.models.product.ProductCategory;
-import com.ecommerce.eshop.repositories.CategoryRepository;
-import com.ecommerce.eshop.repositories.ProductRepository;
-import com.ecommerce.eshop.utils.excepctions.CategoryCreationException;
-import com.ecommerce.eshop.utils.excepctions.CategoryNotFoundException;
+import com.ecommerce.eshop.product.models.Product;
+import com.ecommerce.eshop.product.models.ProductCategory;
+import com.ecommerce.eshop.product.repositories.CategoryRepository;
+import com.ecommerce.eshop.product.repositories.ProductRepository;
+import com.ecommerce.eshop.product.exceptions.CategoryCreationException;
+import com.ecommerce.eshop.product.exceptions.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

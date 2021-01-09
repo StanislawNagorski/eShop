@@ -1,4 +1,4 @@
-package com.ecommerce.eshop.utils.excepctions;
+package com.ecommerce.eshop.product.exceptions;
 
 public class CategoryCreationException extends RuntimeException {
     public CategoryCreationException(String message) {

@@ -1,15 +1,11 @@
 package com.ecommerce.eshop;
 
-import com.ecommerce.eshop.models.product.Product;
-import com.ecommerce.eshop.models.product.ProductCategory;
-import com.ecommerce.eshop.service.CategoryService;
-import com.ecommerce.eshop.service.ProductService;
+import com.ecommerce.eshop.product.service.CategoryService;
+import com.ecommerce.eshop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor

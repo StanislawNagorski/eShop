@@ -1,5 +1,6 @@
-package com.ecommerce.eshop.utils.excepctions;
+package com.ecommerce.eshop.product.exceptions;
 
+import com.ecommerce.eshop.utils.excepctions.ApiError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
