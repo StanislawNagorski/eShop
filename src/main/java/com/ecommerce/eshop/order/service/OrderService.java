@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +57,10 @@ public class OrderService {
 
     public List<CustomerOrder> getAllThatIncludesProduct(Product product){
         return orderRepository.findAllByProductsIsContaining(product);
+    }
+
+    public List<CustomerOrder> getAllByNewest(){
+        return orderRepository.findAllByOrderByCreationTimeDesc();
     }
 
     public CustomerOrder deleteById(Long id){

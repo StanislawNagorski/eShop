@@ -11,6 +11,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<CustomerOrder, Long> {
 
     List<CustomerOrder> findAllByProductsIsContaining(Product product);
+    List<CustomerOrder> findAllByOrderByCreationTimeDesc();
     //by total price
     //by total quantity
     //by product

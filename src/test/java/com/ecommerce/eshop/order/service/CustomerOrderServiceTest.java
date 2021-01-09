@@ -110,8 +110,24 @@ class CustomerOrderServiceTest {
     }
 
     @Test
+    @Transactional
     void shouldReturnListOfAllOrdersSortedByNewest() {
+        //Given
 
+        //When
+        List<CustomerOrder> allByNewest = orderService.getAllByNewest();
+        boolean everyNextOrderIsOlder = true;
+        for (int i = 1; i < allByNewest.size(); i++) {
+            System.out.println("data stworzenia to i-1 : " + allByNewest.get(i-1).getCreationTime());
+            System.out.println("data stworzenia to i : " + allByNewest.get(i).getCreationTime());
+
+            if (allByNewest.get(i).getCreationTime().isAfter(allByNewest.get(i-1).getCreationTime())){
+                everyNextOrderIsOlder = false;
+                break;
+            }
+        }
+        //Then
+        assertTrue(everyNextOrderIsOlder);
     }
 
     @Test
