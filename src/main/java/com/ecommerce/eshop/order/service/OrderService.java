@@ -63,6 +63,10 @@ public class OrderService {
         return orderRepository.findAllByOrderByCreationTimeDesc();
     }
 
+    public List<CustomerOrder> getAllByTotalAmountDescending(){
+        return orderRepository.findAllByOrderByTotalAmountDesc();
+    }
+
     public CustomerOrder deleteById(Long id){
         Optional<CustomerOrder> orderFromDB = orderRepository.findById(id);
         if (orderFromDB.isEmpty()){

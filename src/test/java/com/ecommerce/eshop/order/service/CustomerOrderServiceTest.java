@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,14 +56,15 @@ class CustomerOrderServiceTest {
     void shouldSaveOrderToDBandReturnItById() {
         //Given
         product = productService.getById(EXISTING_PRODUCT_ID);
-        product2 = productService.getById(EXISTING_PRODUCT_ID+1);
+        product2 = productService.getById(EXISTING_PRODUCT_ID + 1);
         CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setProducts(List.of(product,product2));
+        customerOrder.setProducts(List.of(product, product2));
         //When
         orderService.save(customerOrder);
         //Then
-      //  assertTrue(orderService.getByID(TEST_ORDER_ID).isPresent());
+        //  assertTrue(orderService.getByID(TEST_ORDER_ID).isPresent());
     }
+
     @Test()
     void shouldTrowExceptionIfOrderAlreadyExists() {
         //Given
@@ -72,8 +74,9 @@ class CustomerOrderServiceTest {
         //Then
         assertThrows(OrderCreationException.class, () -> orderService.save(testCustomerOrder));
     }
+
     @Test
-    void shouldSetStatusOfOrderToCreatedWhenSaved(){
+    void shouldSetStatusOfOrderToCreatedWhenSaved() {
         assertSame(orderService.getByID(TEST_ORDER_ID).get().getOrderStatus(), OrderStatus.CREATED);
     }
 
@@ -87,10 +90,10 @@ class CustomerOrderServiceTest {
     void shouldReturnListOfAllOrdersThatIncludesProduct() {
         //Given
         product = productService.getById(EXISTING_PRODUCT_ID);
-        product2 = productService.getById(EXISTING_PRODUCT_ID+1);
+        product2 = productService.getById(EXISTING_PRODUCT_ID + 1);
 
         CustomerOrder customerOrder = new CustomerOrder();
-        customerOrder.setProducts(List.of(product,product2));
+        customerOrder.setProducts(List.of(product, product2));
         orderService.save(customerOrder);
 
         CustomerOrder customerOrder1 = new CustomerOrder();
@@ -100,7 +103,7 @@ class CustomerOrderServiceTest {
         List<CustomerOrder> allThatIncludesProduct = orderService.getAllThatIncludesProduct(product);
         boolean allOrdersContainsProduct = true;
         for (CustomerOrder order : allThatIncludesProduct) {
-            if (!order.getProducts().contains(product)){
+            if (!order.getProducts().contains(product)) {
                 allOrdersContainsProduct = false;
                 break;
             }
@@ -113,15 +116,13 @@ class CustomerOrderServiceTest {
     @Transactional
     void shouldReturnListOfAllOrdersSortedByNewest() {
         //Given
-
-        //When
         List<CustomerOrder> allByNewest = orderService.getAllByNewest();
+        //When
         boolean everyNextOrderIsOlder = true;
         for (int i = 1; i < allByNewest.size(); i++) {
-            System.out.println("data stworzenia to i-1 : " + allByNewest.get(i-1).getCreationTime());
+            System.out.println("data stworzenia to i-1 : " + allByNewest.get(i - 1).getCreationTime());
             System.out.println("data stworzenia to i : " + allByNewest.get(i).getCreationTime());
-
-            if (allByNewest.get(i).getCreationTime().isAfter(allByNewest.get(i-1).getCreationTime())){
+            if (allByNewest.get(i).getCreationTime().isAfter(allByNewest.get(i - 1).getCreationTime())) {
                 everyNextOrderIsOlder = false;
                 break;
             }
@@ -132,7 +133,24 @@ class CustomerOrderServiceTest {
 
     @Test
     void shouldReturnListOfOrdersSortedByTotalAmount() {
+        //Given
+        List<CustomerOrder> allByTotalAmountDescending = orderService.getAllByTotalAmountDescending();
+        //When
+        boolean everyNextOrderIsTotalAmountIsLess = true;
+        for (int i = 1; i < allByTotalAmountDescending.size(); i++) {
+            BigDecimal previousTotalAmount = allByTotalAmountDescending.get(i-1).getTotalAmount();
+            BigDecimal currentTotalAmount = allByTotalAmountDescending.get(i).getTotalAmount();
 
+            System.out.println("previous value: " + previousTotalAmount);
+            System.out.println("current value: " + currentTotalAmount);
+
+            if (previousTotalAmount.compareTo(currentTotalAmount) < 0) {
+                everyNextOrderIsTotalAmountIsLess = false;
+                break;
+            }
+        }
+        //Then
+        assertTrue(everyNextOrderIsTotalAmountIsLess);
     }
 
     @Test
@@ -162,7 +180,7 @@ class CustomerOrderServiceTest {
 
     @Ignore
     @Test
-    void shouldReturnTrueIfDeleteIsSuccessful(){
+    void shouldReturnTrueIfDeleteIsSuccessful() {
         //Given
 
         //When
