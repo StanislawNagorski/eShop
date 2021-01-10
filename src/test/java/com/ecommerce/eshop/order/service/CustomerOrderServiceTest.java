@@ -192,7 +192,7 @@ class CustomerOrderServiceTest {
     void shouldReturnListOfOrdersByGivenStatus() {
         //Given
         OrderStatus expectedStatus = OrderStatus.CREATED;
-        List<CustomerOrder> allByStatus = orderService.getAllByStatus(expectedStatus);
+        List<CustomerOrder> allByStatus = orderService.getAllByStatus(expectedStatus.name());
         //When
         boolean allAreSameStatus = true;
         for (CustomerOrder byStatus : allByStatus) {

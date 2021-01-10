@@ -8,11 +8,12 @@ import com.ecommerce.eshop.order.repositories.OrderRepository;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
+import com.ecommerce.eshop.utils.excepctions.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,7 +93,14 @@ public class OrderService {
         return orderRepository.findAllByOrderByTotalQuantityDesc();
     }
 
-    public List<CustomerOrder> getAllByStatus(OrderStatus orderStatus) {
+    public List<CustomerOrder> getAllByStatus(String statusString) {
+        Optional<OrderStatus> optionalOrderStatus = Arrays.stream(OrderStatus.values())
+                .filter(orderStatus -> orderStatus.name().equals(statusString))
+                .findAny();
+        if (optionalOrderStatus.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ExceptionUtils.ORDER_STATUS_NOT_FOUND, statusString));
+        }
+        OrderStatus orderStatus = OrderStatus.valueOf(statusString);
         return orderRepository.findAllByOrderStatus(orderStatus);
     }
 
