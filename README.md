@@ -23,7 +23,7 @@ Technology stack:
 
 Resources
 -
-- Product
+### Product
 
 ```
 {
@@ -44,7 +44,7 @@ Resources
 } 
 ```
 
-- Order
+### Order
 ```
 {
     "id": 3,
