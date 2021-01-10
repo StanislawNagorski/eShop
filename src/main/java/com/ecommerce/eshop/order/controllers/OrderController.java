@@ -48,13 +48,13 @@ public class OrderController {
         return orderService.getAllBetweenDates(dateRange);
     }
 
-    @GetMapping("/byAmount")
+    @GetMapping("/by_amount")
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerOrder> getAllByAmountDescending() {
         return orderService.getAllByTotalAmountDesc();
     }
 
-    @GetMapping("/byQuantity")
+    @GetMapping("/by_quantity")
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerOrder> getAllByQuantityDescending() {
         return orderService.getAllByTotalQuantityDesc();
@@ -79,6 +79,11 @@ public class OrderController {
         return orderService.update(id,customerOrder);
     }
 
-
+    @PostMapping("/update_status/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CustomerOrder updateStatus(@RequestParam String status, @PathVariable Long id){
+        String statusString = status.toUpperCase();
+        return orderService.changeOrderStatus(id,statusString);
+    }
 
 }

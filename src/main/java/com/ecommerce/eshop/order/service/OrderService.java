@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,11 +73,7 @@ public class OrderService {
     }
 
     public CustomerOrder update(Long id, CustomerOrder customerOrder) {
-        Optional<CustomerOrder> orderOptional = orderRepository.findById(id);
-        if (orderOptional.isEmpty()) {
-            throw new OrderNotFoundException(String.format(ORDER_NOT_FOUND, id));
-        }
-        CustomerOrder orderFromDB = orderOptional.get();
+        CustomerOrder orderFromDB = saveGetCustomerOrder(id);
 
         List<Product> orderProducts = customerOrder.getProducts();
         if (orderProducts.isEmpty()) {
@@ -91,6 +88,31 @@ public class OrderService {
         orderFromDB.setTotalQuantity(countTotalQuantity(orderFromDB));
 
         return orderRepository.save(orderFromDB);
+    }
+
+    private CustomerOrder saveGetCustomerOrder(Long id) {
+        Optional<CustomerOrder> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_NOT_FOUND, id));
+        }
+        return orderOptional.get();
+    }
+
+    public CustomerOrder changeOrderStatus(Long id, String statusString){
+        CustomerOrder orderFromDB = saveGetCustomerOrder(id);
+        orderFromDB.setOrderStatus(getOrderStatusEnum(statusString));
+
+        return orderRepository.save(orderFromDB);
+    }
+
+    private OrderStatus getOrderStatusEnum(String statusString) {
+        Optional<OrderStatus> optionalOrderStatus = Arrays.stream(OrderStatus.values())
+                .filter(orderStatus -> orderStatus.name().equals(statusString))
+                .findAny();
+        if (optionalOrderStatus.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ExceptionUtils.ORDER_STATUS_NOT_FOUND, statusString));
+        }
+        return OrderStatus.valueOf(statusString);
     }
 
     public CustomerOrder getByID(Long id) {
@@ -132,13 +154,7 @@ public class OrderService {
     }
 
     public List<CustomerOrder> getAllByStatus(String statusString) {
-        Optional<OrderStatus> optionalOrderStatus = Arrays.stream(OrderStatus.values())
-                .filter(orderStatus -> orderStatus.name().equals(statusString))
-                .findAny();
-        if (optionalOrderStatus.isEmpty()) {
-            throw new OrderNotFoundException(String.format(ExceptionUtils.ORDER_STATUS_NOT_FOUND, statusString));
-        }
-        OrderStatus orderStatus = OrderStatus.valueOf(statusString);
+        OrderStatus orderStatus = getOrderStatusEnum(statusString);
         return orderRepository.findAllByOrderStatus(orderStatus);
     }
 
