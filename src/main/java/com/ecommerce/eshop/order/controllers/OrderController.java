@@ -1,18 +1,13 @@
 package com.ecommerce.eshop.order.controllers;
 
-import com.ecommerce.eshop.order.exceptions.OrderNotFoundException;
 import com.ecommerce.eshop.order.models.CustomerOrder;
-import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.order.service.OrderService;
 import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
-import com.ecommerce.eshop.utils.excepctions.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
