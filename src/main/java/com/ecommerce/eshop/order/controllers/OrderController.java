@@ -22,4 +22,10 @@ public class OrderController {
         return orderService.getAll();
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerOrder getById(@PathVariable Long id){
+        return orderService.getByID(id);
+    }
+
 }
