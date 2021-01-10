@@ -34,4 +34,10 @@ public class OrderController {
     return orderService.getAllThatIncludesProduct(id);
     }
 
+    @GetMapping("/newest")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerOrder> getAllNewest(){
+        return orderService.getAllByNewest();
+    }
+
 }
