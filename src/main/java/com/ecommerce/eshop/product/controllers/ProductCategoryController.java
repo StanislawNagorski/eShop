@@ -1,10 +1,10 @@
-package com.ecommerce.eshop.controllers;
+package com.ecommerce.eshop.product.controllers;
 
-import com.ecommerce.eshop.models.product.ProductCategory;
-import com.ecommerce.eshop.service.CategoryService;
+import com.ecommerce.eshop.product.models.ProductCategory;
+import com.ecommerce.eshop.product.service.CategoryService;
 import com.ecommerce.eshop.utils.excepctions.ApiError;
-import com.ecommerce.eshop.utils.excepctions.CategoryCreationException;
-import com.ecommerce.eshop.utils.excepctions.CategoryNotFoundException;
+import com.ecommerce.eshop.product.exceptions.CategoryCreationException;
+import com.ecommerce.eshop.product.exceptions.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

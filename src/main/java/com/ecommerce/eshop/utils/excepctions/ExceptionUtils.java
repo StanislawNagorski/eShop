@@ -8,5 +8,8 @@ public class ExceptionUtils {
     public static final String CATEGORY_CANNOT_SAVE_DUPLICATE = "Category named: %s already exists in DB";
     public static final String CATEGORY_NOT_FOUND_BY_NAME = "Could not found category named: %s";
     public static final String CATEGORY_NOT_FOUND_BY_ID = "Could not found category with id: %d";
+    public static final String ORDER_CANNOT_SAVE = "Cannot save order with id: %d, it already exists, use update instead";
+    public static final String ORDER_WITHOUT_ANY_PRODUCTS = "Cannot save order without any products";
+    public static final String ORDER_NOT_FOUND = "Cannot find order with id: %d";
 
 }

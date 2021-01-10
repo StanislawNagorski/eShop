@@ -1,6 +1,6 @@
-package com.ecommerce.eshop.service;
+package com.ecommerce.eshop.product.service;
 
-import com.ecommerce.eshop.models.product.Product;
+import com.ecommerce.eshop.product.models.Product;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Ignore
 class ProductServiceTest {
 
     @Autowired
     ProductService productService;
+    @Autowired
+    CategoryService categoryService;
 
-
+    @Ignore
     @Test
     void shouldReturnSavedProduct() {
         //Given
@@ -60,12 +61,13 @@ class ProductServiceTest {
     @Test
     void shouldOnlyReturnProductsOfSameCategory() {
         //Given
-        String expectedCategoryName = "testcategory";
+        Long categoryIDThatExistInDB = 7L;
+        String givenCategoryName = categoryService.getById(categoryIDThatExistInDB).getName();
         //When
-        List<Product> allByCategory = productService.getAllByCategory(expectedCategoryName);
+        List<Product> allByCategory = productService.getAllByCategory(givenCategoryName);
         boolean allProductsAreSameCategory = true;
         for (Product product : allByCategory) {
-            if (!(product.getCategory().getName().equals(expectedCategoryName))) {
+            if (!(product.getCategory().getName().equals(givenCategoryName))) {
                 allProductsAreSameCategory = false;
                 break;
             }
@@ -117,7 +119,7 @@ class ProductServiceTest {
         assertTrue(everyNextPriceIsHigher);
     }
 
-
+    @Ignore
     @Test
     void shouldDeactivateProduct() {
         //Given

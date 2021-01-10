@@ -1,8 +1,8 @@
-package com.ecommerce.eshop.service;
+package com.ecommerce.eshop.product.service;
 
-import com.ecommerce.eshop.models.product.Product;
-import com.ecommerce.eshop.models.product.ProductImage;
-import com.ecommerce.eshop.repositories.ImageRepository;
+import com.ecommerce.eshop.product.models.Product;
+import com.ecommerce.eshop.product.models.ProductImage;
+import com.ecommerce.eshop.product.repositories.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

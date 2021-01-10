@@ -1,7 +1,11 @@
-package com.ecommerce.eshop.controllers;
+package com.ecommerce.eshop.product.controllers;
 
-import com.ecommerce.eshop.models.product.Product;
-import com.ecommerce.eshop.service.ProductService;
+import com.ecommerce.eshop.product.exceptions.CategoryCreationException;
+import com.ecommerce.eshop.product.exceptions.CategoryNotFoundException;
+import com.ecommerce.eshop.product.exceptions.ProductCreationException;
+import com.ecommerce.eshop.product.exceptions.ProductNotFoundException;
+import com.ecommerce.eshop.product.models.Product;
+import com.ecommerce.eshop.product.service.ProductService;
 import com.ecommerce.eshop.utils.excepctions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -77,7 +81,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Product addProduct(@Valid @RequestBody Product product) {
         return productService.save(product);
     }
