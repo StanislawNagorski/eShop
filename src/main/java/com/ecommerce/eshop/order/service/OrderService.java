@@ -5,6 +5,7 @@ import com.ecommerce.eshop.order.exceptions.OrderNotFoundException;
 import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.order.repositories.OrderRepository;
+import com.ecommerce.eshop.product.exceptions.ProductNotFoundException;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.repositories.ProductRepository;
 import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,14 +33,29 @@ public class OrderService {
             throw new OrderCreationException(String.format(ORDER_CANNOT_SAVE, customerOrder.getId()));
         }
 
-        if (customerOrder.getProducts().isEmpty()) {
+        List<Product> orderProducts = customerOrder.getProducts();
+        if (orderProducts.isEmpty()) {
             throw new OrderCreationException(ORDER_WITHOUT_ANY_PRODUCTS);
         }
+        customerOrder.setProducts(getProductsFromDB(orderProducts));
+
         customerOrder.setTotalAmount(countTotalAmount(customerOrder));
         customerOrder.setTotalQuantity(countTotalQuantity(customerOrder));
 
         customerOrder.setOrderStatus(OrderStatus.CREATED);
         return orderRepository.save(customerOrder);
+    }
+
+    private List<Product> getProductsFromDB(List<Product> inputProductList){
+        List<Product> productListFromDB = new ArrayList<>();
+        inputProductList.forEach(product -> {
+            Optional<Product> productFromDB = productRepository.findById(product.getId());
+            if (productFromDB.isEmpty()){
+                throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND, product.getId()));
+            }
+            productListFromDB.add(productFromDB.get());
+        });
+        return productListFromDB;
     }
 
     //TODO update!!

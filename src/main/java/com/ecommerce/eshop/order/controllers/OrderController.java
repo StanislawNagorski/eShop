@@ -67,6 +67,12 @@ public class OrderController {
         return orderService.getAllByStatus(statusString);
     }
 
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CustomerOrder save(@RequestBody CustomerOrder customerOrder){
+        return orderService.save(customerOrder);
+    }
+
 
 
 }
