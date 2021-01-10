@@ -48,4 +48,16 @@ public class OrderController {
         return orderService.getAllBetweenDates(dateRange);
     }
 
+    @GetMapping("/byAmount")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerOrder> getAllByAmountDescending(){
+        return orderService.getAllByTotalAmountDesc();
+    }
+
+    @GetMapping("/byQuantity")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerOrder> getAllByQuantityDescending(){
+        return orderService.getAllByTotalQuantityDesc();
+    }
+
 }
