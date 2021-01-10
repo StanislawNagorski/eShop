@@ -28,4 +28,10 @@ public class OrderController {
         return orderService.getByID(id);
     }
 
+    @GetMapping("/product")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerOrder> getAllContainsProductById(@RequestParam Long id){
+    return orderService.getAllThatIncludesProduct(id);
+    }
+
 }

@@ -6,6 +6,7 @@ import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.order.repositories.OrderRepository;
 import com.ecommerce.eshop.product.models.Product;
+import com.ecommerce.eshop.product.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     public CustomerOrder save(CustomerOrder customerOrder) {
         if (customerOrder.getId() != null && orderRepository.existsById(customerOrder.getId())) {
@@ -36,6 +38,8 @@ public class OrderService {
         customerOrder.setOrderStatus(OrderStatus.CREATED);
         return orderRepository.save(customerOrder);
     }
+
+    //TODO update!!
 
     private BigDecimal countTotalAmount(CustomerOrder customerOrder) {
         BigDecimal totalAmount = BigDecimal.ZERO;
@@ -61,8 +65,13 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public List<CustomerOrder> getAllThatIncludesProduct(Product product) {
-        return orderRepository.findAllByProductsIsContaining(product);
+    public List<CustomerOrder> getAllThatIncludesProduct(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()){
+            throw new OrderNotFoundException(String.format(ORDER_CONTAINING_PRODUCT_NOT_FOUND,id));
+        }
+
+        return orderRepository.findAllByProductsIsContaining(productOptional.get());
     }
 
     public List<CustomerOrder> getAllByNewest() {

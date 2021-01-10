@@ -11,5 +11,6 @@ public class ExceptionUtils {
     public static final String ORDER_CANNOT_SAVE = "Cannot save order with id: %d, it already exists, use update instead";
     public static final String ORDER_WITHOUT_ANY_PRODUCTS = "Cannot save order without any products";
     public static final String ORDER_NOT_FOUND = "Cannot find order with id: %d";
+    public static final String ORDER_CONTAINING_PRODUCT_NOT_FOUND ="Cannot find order that contain product with id: %d";
 
 }

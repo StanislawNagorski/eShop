@@ -95,7 +95,7 @@ class CustomerOrderServiceTest {
         customerOrder1.setProducts(List.of(product));
         orderService.save(customerOrder1);
         //When
-        List<CustomerOrder> allThatIncludesProduct = orderService.getAllThatIncludesProduct(product);
+        List<CustomerOrder> allThatIncludesProduct = orderService.getAllThatIncludesProduct(product.getId());
         boolean allOrdersContainsProduct = true;
         for (CustomerOrder order : allThatIncludesProduct) {
             if (!order.getProducts().contains(product)) {
