@@ -12,5 +12,6 @@ public class ExceptionUtils {
     public static final String ORDER_WITHOUT_ANY_PRODUCTS = "Cannot save order without any products";
     public static final String ORDER_NOT_FOUND = "Cannot find order with id: %d";
     public static final String ORDER_CONTAINING_PRODUCT_NOT_FOUND ="Cannot find order that contain product with id: %d";
+    public static final String ORDER_DATES_PARAMETER_MISSING = "Cannot find this date, date parameters are missing";
 
 }

@@ -7,6 +7,7 @@ import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.order.repositories.OrderRepository;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.repositories.ProductRepository;
+import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -67,8 +68,8 @@ public class OrderService {
 
     public List<CustomerOrder> getAllThatIncludesProduct(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
-        if (productOptional.isEmpty()){
-            throw new OrderNotFoundException(String.format(ORDER_CONTAINING_PRODUCT_NOT_FOUND,id));
+        if (productOptional.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_CONTAINING_PRODUCT_NOT_FOUND, id));
         }
 
         return orderRepository.findAllByProductsIsContaining(productOptional.get());
@@ -78,8 +79,9 @@ public class OrderService {
         return orderRepository.findAllByOrderByCreationTimeDesc();
     }
 
-    public List<CustomerOrder> getAllBetweenDates(LocalDateTime from, LocalDateTime to) {
-        return orderRepository.findAllByCreationTimeAfterAndCreationTimeBefore(from, to);
+    public List<CustomerOrder> getAllBetweenDates(DateRange dateRange) {
+        return orderRepository.findAllByCreationTimeAfterAndCreationTimeBefore(
+                dateRange.getDateTimeFrom(), dateRange.getDateTimeTo());
     }
 
     public List<CustomerOrder> getAllByTotalAmountDesc() {

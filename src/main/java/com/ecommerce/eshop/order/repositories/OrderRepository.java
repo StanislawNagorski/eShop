@@ -4,8 +4,6 @@ import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.product.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -16,7 +14,7 @@ public interface OrderRepository extends JpaRepository<CustomerOrder, Long> {
 
     List<CustomerOrder> findAllByProductsIsContaining(Product product);
     List<CustomerOrder> findAllByOrderByCreationTimeDesc();
-    List<CustomerOrder> findAllByCreationTimeAfterAndCreationTimeBefore(LocalDateTime after, LocalDateTime before);
+    List<CustomerOrder> findAllByCreationTimeAfterAndCreationTimeBefore(LocalDateTime from, LocalDateTime to);
     List<CustomerOrder> findAllByOrderByTotalAmountDesc();
     List<CustomerOrder> findAllByOrderByTotalQuantityDesc();
     List<CustomerOrder> findAllByOrderStatus(OrderStatus orderStatus);

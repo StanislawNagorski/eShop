@@ -2,10 +2,13 @@ package com.ecommerce.eshop.order.controllers;
 
 import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.service.OrderService;
+import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -38,6 +41,12 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerOrder> getAllNewest(){
         return orderService.getAllByNewest();
+    }
+
+    @GetMapping("/date")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerOrder> getAllBetweenDates(@RequestBody DateRange dateRange){
+        return orderService.getAllBetweenDates(dateRange);
     }
 
 }
