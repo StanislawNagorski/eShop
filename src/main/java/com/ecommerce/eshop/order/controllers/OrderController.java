@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,31 +19,32 @@ public class OrderController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<CustomerOrder> getAll(){
+    public List<CustomerOrder> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerOrder getById(@PathVariable Long id){
+    public CustomerOrder getById(@PathVariable Long id) {
         return orderService.getByID(id);
     }
 
     @GetMapping("/product")
     @ResponseStatus(HttpStatus.OK)
-    public List<CustomerOrder> getAllContainsProductById(@RequestParam Long id){
-    return orderService.getAllThatIncludesProduct(id);
+    public List<CustomerOrder> getAllContainsProductById(@RequestParam Long id) {
+        return orderService.getAllThatIncludesProduct(id);
     }
 
     @GetMapping("/newest")
     @ResponseStatus(HttpStatus.OK)
-    public List<CustomerOrder> getAllNewest(){
+    public List<CustomerOrder> getAllNewest() {
         return orderService.getAllByNewest();
     }
 
+    //TODO: validacja w razie niepoprawnego formatu daty
     @GetMapping("/date")
     @ResponseStatus(HttpStatus.OK)
-    public List<CustomerOrder> getAllBetweenDates(@RequestBody DateRange dateRange){
+    public List<CustomerOrder> getAllBetweenDates(@RequestBody DateRange dateRange) {
         return orderService.getAllBetweenDates(dateRange);
     }
 
