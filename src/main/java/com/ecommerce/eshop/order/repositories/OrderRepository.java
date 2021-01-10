@@ -14,7 +14,7 @@ public interface OrderRepository extends JpaRepository<CustomerOrder, Long> {
 
     List<CustomerOrder> findAllByProductsIsContaining(Product product);
     List<CustomerOrder> findAllByOrderByCreationTimeDesc();
-    List<CustomerOrder> findAllByCreationTimeAfterAndCreationTimeBefore(LocalDateTime after, LocalDateTime before);
+    List<CustomerOrder> findAllByCreationTimeAfterAndCreationTimeBefore(LocalDateTime from, LocalDateTime to);
     List<CustomerOrder> findAllByOrderByTotalAmountDesc();
     List<CustomerOrder> findAllByOrderByTotalQuantityDesc();
     List<CustomerOrder> findAllByOrderStatus(OrderStatus orderStatus);

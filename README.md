@@ -23,8 +23,7 @@ Technology stack:
 
 Resources
 -
-- Products
-   - http://NOT_HOSTED_YET/products
+- Product
 
 ```
 {
@@ -45,98 +44,23 @@ Resources
 } 
 ```
 
-- Categories names:
+- Order
+```
+{
+    "id": 3,
+    "products": [ ... ],
+    "totalAmount": 1448.00,
+    "totalQuantity": 3,
+    "creationTime": "2021-01-09T15:16:17.856615",
+    "updateTime": "2021-01-10T19:10:03.266691",
+    "orderStatus": "PAID"
+}
+```
 
-  * http://NOT_HOSTED_YET/products/categories
 
 How to and all available routes
 -
-### Get all products
- http://NOT_HOSTED_YET/products
-### Get single product
-by product id:
-http://NOT_HOSTED_YET/products/1
-### Get categories of products
-http://NOT_HOSTED_YET/products/categories
-### Get all product 
-  - by category
-http://NOT_HOSTED_YET/products/filter?category=exampleCategory
-  - by product name
-http://NOT_HOSTED_YET/products/search?name=ExampleName
-  - with promo price
-http://NOT_HOSTED_YET/products/promo
-### Get all products ordered by price
-- Ascending price
-  * http://NOT_HOSTED_YET/products/price?customerOrder=asc
-- Ascending price by category
-  * http://NOT_HOSTED_YET/products/price?customerOrder=asc&category=exampleCategory
-
-- Descending price
-  * http://NOT_HOSTED_YET/products/price?customerOrder=desc
-- Descending price by category
-  * http://NOT_HOSTED_YET/products/price?customerOrder=desc&category=exampleCategory
-
-### Post new category
-POST to: http://NOT_HOSTED_YET/products/categories?category=newCategory will return:
-```
-{
-       "id": 5,
-       "name": "newcategory"
-}
-```
-
-### Update category by id
-PUT to: http://NOT_HOSTED_YET/products/categories/5, note: requires body.
-```
-{
-    "name": "updated test category name"
-}
-```
-
-### Delete category by id
-DELETE to: http://NOT_HOSTED_YET/products/categories/5, will return a deleted category.
-
-  
-### Post new product
- POST to: http://NOT_HOSTED_YET/products, will return a created object.
- ``` 
-{
-     "name": "Srebrny miecz szkoły kota", //CANNOT BE NULL
-     "description": "Mistrzowski, ale sam walki nie wygra", //CANNOT BE NULL
-     "price": 1350.00, //CANNOT BE NULL
-     "quantity": 1,
-     "category": { //you may give id or category
-         "id": 1,
-         "name": "miecz_długi"
-     },
-     "promoPrice": 349.99,
-      "productImages": [
-             {
-                 "imageUrl": exemple_url.jpg"
-             },
-               {
-                 "imageUrl": "exemple_url1.jpg"
-             }
-     
-         ],
-     "active": true,
-     "promo": true
- } 
- ```
-Note: if want to post a new product with category, you need be using existing one.
-
-### Update product by id
-PUT to: http://NOT_HOSTED_YET/products/1
-will update only fields You selected (and update time);
-```
-{
-     "promoPrice": 249.99,
-     "promo": true
- } 
- ```
-
-### Delete product by id
-DELETE to: http://NOT_HOSTED_YET/products/1 will deactivate a product, and return it.
+### [All endpoints documentation is available here](https://documenter.getpostman.com/view/12383136/TVzPoKit) 
 
 
 

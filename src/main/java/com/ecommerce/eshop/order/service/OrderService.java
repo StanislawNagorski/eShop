@@ -5,30 +5,42 @@ import com.ecommerce.eshop.order.exceptions.OrderNotFoundException;
 import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.order.repositories.OrderRepository;
+import com.ecommerce.eshop.product.exceptions.ProductNotFoundException;
 import com.ecommerce.eshop.product.models.Product;
+import com.ecommerce.eshop.product.repositories.ProductRepository;
+import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
 import com.ecommerce.eshop.utils.excepctions.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
-    public CustomerOrder save(CustomerOrder customerOrder){
-        if (customerOrder.getId() != null && orderRepository.existsById(customerOrder.getId())){
-            throw new OrderCreationException(String.format(ExceptionUtils.ORDER_CANNOT_SAVE, customerOrder.getId()));
+    public CustomerOrder save(CustomerOrder customerOrder) {
+        if (customerOrder.getId() != null && orderRepository.existsById(customerOrder.getId())) {
+            throw new OrderCreationException(String.format(ORDER_CANNOT_SAVE, customerOrder.getId()));
         }
 
-        if (customerOrder.getProducts().isEmpty()){
-            throw new OrderCreationException(ExceptionUtils.ORDER_WITHOUT_ANY_PRODUCTS);
+        List<Product> orderProducts = customerOrder.getProducts();
+        if (orderProducts.isEmpty()) {
+            throw new OrderCreationException(ORDER_WITHOUT_ANY_PRODUCTS);
         }
+        customerOrder.setProducts(getProductsFromDB(orderProducts));
+
         customerOrder.setTotalAmount(countTotalAmount(customerOrder));
         customerOrder.setTotalQuantity(countTotalQuantity(customerOrder));
 
@@ -36,7 +48,19 @@ public class OrderService {
         return orderRepository.save(customerOrder);
     }
 
-    private BigDecimal countTotalAmount(CustomerOrder customerOrder){
+    private List<Product> getProductsFromDB(List<Product> inputProductList) {
+        List<Product> productListFromDB = new ArrayList<>();
+        inputProductList.forEach(product -> {
+            Optional<Product> productFromDB = productRepository.findById(product.getId());
+            if (productFromDB.isEmpty()) {
+                throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND, product.getId()));
+            }
+            productListFromDB.add(productFromDB.get());
+        });
+        return productListFromDB;
+    }
+
+    private BigDecimal countTotalAmount(CustomerOrder customerOrder) {
         BigDecimal totalAmount = BigDecimal.ZERO;
         for (Product product : customerOrder.getProducts()) {
             totalAmount = totalAmount.add(product.getPrice());
@@ -44,46 +68,100 @@ public class OrderService {
         return totalAmount;
     }
 
-    private Integer countTotalQuantity(CustomerOrder customerOrder){
+    private Integer countTotalQuantity(CustomerOrder customerOrder) {
         return customerOrder.getProducts().size();
     }
 
-    public Optional<CustomerOrder> getByID(Long id){
-        return orderRepository.findById(id);
+    public CustomerOrder update(Long id, CustomerOrder customerOrder) {
+        CustomerOrder orderFromDB = saveGetCustomerOrder(id);
+
+        List<Product> orderProducts = customerOrder.getProducts();
+        if (orderProducts.isEmpty()) {
+            throw new OrderCreationException(ORDER_WITHOUT_ANY_PRODUCTS);
+        }
+        orderFromDB.setProducts(getProductsFromDB(orderProducts));
+
+        if (customerOrder.getOrderStatus() != null){
+            orderFromDB.setOrderStatus(customerOrder.getOrderStatus());
+        }
+        orderFromDB.setTotalAmount(countTotalAmount(orderFromDB));
+        orderFromDB.setTotalQuantity(countTotalQuantity(orderFromDB));
+
+        return orderRepository.save(orderFromDB);
     }
 
-    public List<CustomerOrder> getAll(){
+    private CustomerOrder saveGetCustomerOrder(Long id) {
+        Optional<CustomerOrder> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_NOT_FOUND, id));
+        }
+        return orderOptional.get();
+    }
+
+    public CustomerOrder changeOrderStatus(Long id, String statusString){
+        CustomerOrder orderFromDB = saveGetCustomerOrder(id);
+        orderFromDB.setOrderStatus(getOrderStatusEnum(statusString));
+
+        return orderRepository.save(orderFromDB);
+    }
+
+    private OrderStatus getOrderStatusEnum(String statusString) {
+        Optional<OrderStatus> optionalOrderStatus = Arrays.stream(OrderStatus.values())
+                .filter(orderStatus -> orderStatus.name().equals(statusString))
+                .findAny();
+        if (optionalOrderStatus.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ExceptionUtils.ORDER_STATUS_NOT_FOUND, statusString));
+        }
+        return OrderStatus.valueOf(statusString);
+    }
+
+    public CustomerOrder getByID(Long id) {
+        Optional<CustomerOrder> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_NOT_FOUND, id));
+        }
+        return orderOptional.get();
+    }
+
+    public List<CustomerOrder> getAll() {
         return orderRepository.findAll();
     }
 
-    public List<CustomerOrder> getAllThatIncludesProduct(Product product){
-        return orderRepository.findAllByProductsIsContaining(product);
+    public List<CustomerOrder> getAllThatIncludesProduct(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_CONTAINING_PRODUCT_NOT_FOUND, id));
+        }
+
+        return orderRepository.findAllByProductsIsContaining(productOptional.get());
     }
 
-    public List<CustomerOrder> getAllByNewest(){
+    public List<CustomerOrder> getAllByNewest() {
         return orderRepository.findAllByOrderByCreationTimeDesc();
     }
 
-    public List<CustomerOrder> getAllBetweenDates(LocalDateTime from, LocalDateTime to){
-        return orderRepository.findAllByCreationTimeAfterAndCreationTimeBefore(from,to);
+    public List<CustomerOrder> getAllBetweenDates(DateRange dateRange) {
+        return orderRepository.findAllByCreationTimeAfterAndCreationTimeBefore(
+                dateRange.getDateTimeFrom(), dateRange.getDateTimeTo());
     }
 
-    public List<CustomerOrder> getAllByTotalAmountDesc(){
+    public List<CustomerOrder> getAllByTotalAmountDesc() {
         return orderRepository.findAllByOrderByTotalAmountDesc();
     }
 
-    public List<CustomerOrder> getAllByTotalQuantityDesc(){
+    public List<CustomerOrder> getAllByTotalQuantityDesc() {
         return orderRepository.findAllByOrderByTotalQuantityDesc();
     }
 
-    public List<CustomerOrder> getAllByStatus(OrderStatus orderStatus){
+    public List<CustomerOrder> getAllByStatus(String statusString) {
+        OrderStatus orderStatus = getOrderStatusEnum(statusString);
         return orderRepository.findAllByOrderStatus(orderStatus);
     }
 
-    public CustomerOrder deleteById(Long id){
+    public CustomerOrder deleteById(Long id) {
         Optional<CustomerOrder> orderFromDB = orderRepository.findById(id);
-        if (orderFromDB.isEmpty()){
-            throw new OrderNotFoundException(String.format(ExceptionUtils.ORDER_NOT_FOUND, id));
+        if (orderFromDB.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_NOT_FOUND, id));
         }
         orderRepository.deleteById(id);
         return orderFromDB.get();

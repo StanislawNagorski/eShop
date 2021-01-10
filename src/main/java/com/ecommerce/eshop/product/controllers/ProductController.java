@@ -1,20 +1,13 @@
 package com.ecommerce.eshop.product.controllers;
 
-import com.ecommerce.eshop.product.exceptions.CategoryCreationException;
-import com.ecommerce.eshop.product.exceptions.CategoryNotFoundException;
-import com.ecommerce.eshop.product.exceptions.ProductCreationException;
-import com.ecommerce.eshop.product.exceptions.ProductNotFoundException;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.service.ProductService;
-import com.ecommerce.eshop.utils.excepctions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_ASCENDING;
 import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_DESCENDING;
@@ -92,22 +85,11 @@ public class ProductController {
         return productService.update(id, product);
     }
 
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Product deleteProduct(@PathVariable Long id) {
         return productService.deactivate(id);
-    }
-
-    @ExceptionHandler({ProductNotFoundException.class, CategoryNotFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError productNotFoundExceptionHandler(RuntimeException runtimeException) {
-        return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler({ProductCreationException.class, CategoryCreationException.class})
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public ApiError creationExceptionHandler(RuntimeException runtimeException) {
-        return new ApiError(UUID.randomUUID(), runtimeException.getMessage(), LocalDateTime.now());
     }
 
 }
