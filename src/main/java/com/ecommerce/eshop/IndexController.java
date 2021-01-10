@@ -1,4 +1,4 @@
-package com.ecommerce.eshop.product.controllers;
+package com.ecommerce.eshop;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

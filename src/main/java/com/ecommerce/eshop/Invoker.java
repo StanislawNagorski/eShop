@@ -17,16 +17,6 @@ public class Invoker implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-//        categoryService.save("szpada");
-//
-//        Product testProduct = new Product();
-//        testProduct.setName("Szpada platikowa");
-//        testProduct.setDescription("Idealne dla dzieciaków");
-//        testProduct.setPrice(BigDecimal.valueOf(70.22));
-//        testProduct.setQuantity(40);
-//        testProduct.setCategory(categoryService.getOneByName("szpada"));
-//
-//        productService.save(testProduct);
 
     }
 }
