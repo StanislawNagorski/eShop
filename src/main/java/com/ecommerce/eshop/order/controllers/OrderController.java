@@ -73,6 +73,12 @@ public class OrderController {
         return orderService.save(customerOrder);
     }
 
+    @PostMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CustomerOrder update(@PathVariable Long id, @RequestBody CustomerOrder customerOrder){
+        return orderService.update(id,customerOrder);
+    }
+
 
 
 }

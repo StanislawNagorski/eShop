@@ -13,6 +13,7 @@ import com.ecommerce.eshop.utils.excepctions.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,19 +47,17 @@ public class OrderService {
         return orderRepository.save(customerOrder);
     }
 
-    private List<Product> getProductsFromDB(List<Product> inputProductList){
+    private List<Product> getProductsFromDB(List<Product> inputProductList) {
         List<Product> productListFromDB = new ArrayList<>();
         inputProductList.forEach(product -> {
             Optional<Product> productFromDB = productRepository.findById(product.getId());
-            if (productFromDB.isEmpty()){
+            if (productFromDB.isEmpty()) {
                 throw new ProductNotFoundException(String.format(PRODUCT_CANNOT_FIND, product.getId()));
             }
             productListFromDB.add(productFromDB.get());
         });
         return productListFromDB;
     }
-
-    //TODO update!!
 
     private BigDecimal countTotalAmount(CustomerOrder customerOrder) {
         BigDecimal totalAmount = BigDecimal.ZERO;
@@ -70,6 +69,28 @@ public class OrderService {
 
     private Integer countTotalQuantity(CustomerOrder customerOrder) {
         return customerOrder.getProducts().size();
+    }
+
+    public CustomerOrder update(Long id, CustomerOrder customerOrder) {
+        Optional<CustomerOrder> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isEmpty()) {
+            throw new OrderNotFoundException(String.format(ORDER_NOT_FOUND, id));
+        }
+        CustomerOrder orderFromDB = orderOptional.get();
+
+        List<Product> orderProducts = customerOrder.getProducts();
+        if (orderProducts.isEmpty()) {
+            throw new OrderCreationException(ORDER_WITHOUT_ANY_PRODUCTS);
+        }
+        orderFromDB.setProducts(getProductsFromDB(orderProducts));
+
+        if (customerOrder.getOrderStatus() != null){
+            orderFromDB.setOrderStatus(customerOrder.getOrderStatus());
+        }
+        orderFromDB.setTotalAmount(countTotalAmount(orderFromDB));
+        orderFromDB.setTotalQuantity(countTotalQuantity(orderFromDB));
+
+        return orderRepository.save(orderFromDB);
     }
 
     public CustomerOrder getByID(Long id) {
