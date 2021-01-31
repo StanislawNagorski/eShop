@@ -15,5 +15,6 @@ public class ExceptionUtils {
     public static final String ORDER_DATES_INCORRECT_FORMAT = "Date format is incorrect, plz use yyyy-mm-dd";
     public static final String ORDER_STATUS_NOT_FOUND = "Status of: %s do not exist";
     public static final String USER_CANNOT_SAVE = "Cannot save user with login: %s, it already exists";
+    public static final String USER_NOT_FOUND = "Cannot find user: %s";
 
 }
