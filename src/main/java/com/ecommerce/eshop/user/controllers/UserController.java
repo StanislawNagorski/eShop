@@ -28,6 +28,4 @@ public class UserController {
         return service.save(user);
     }
 
-
-
 }

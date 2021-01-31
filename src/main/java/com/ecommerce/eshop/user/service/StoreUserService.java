@@ -4,7 +4,6 @@ import com.ecommerce.eshop.user.exceptions.UserCreationException;
 import com.ecommerce.eshop.user.exceptions.UserNotFoundException;
 import com.ecommerce.eshop.user.models.StoreUser;
 import com.ecommerce.eshop.user.repositories.StoreUserRepository;
-import com.ecommerce.eshop.utils.excepctions.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
+import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.USER_CANNOT_SAVE;
+import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class StoreUserService {
 
-    StoreUserRepository repository;
+    private final StoreUserRepository repository;
 
     public StoreUser save(StoreUser user){
-        if (repository.existsById(user.getLogin())){
+        if (user.getId() != null && repository.existsById(user.getId())){
             throw new UserCreationException(String.format(USER_CANNOT_SAVE, user.getLogin()));
         }
+
         user.setCustomerOrders(new ArrayList<>());
         return repository.save(user);
     }
@@ -32,10 +33,10 @@ public class StoreUserService {
         return repository.findAll();
     }
 
-    public StoreUser getByLogin(StoreUser user){
-        Optional<StoreUser> userOptional = repository.findById(user.getLogin());
+    public StoreUser getByLogin(String userLogin){
+        Optional<StoreUser> userOptional = repository.findByLogin(userLogin);
         if (userOptional.isEmpty()){
-            throw new UserNotFoundException(String.format(USER_NOT_FOUND, user.getLogin()));
+            throw new UserNotFoundException(String.format(USER_NOT_FOUND, userLogin));
         }
         return userOptional.get();
     }
