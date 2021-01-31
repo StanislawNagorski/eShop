@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_ASCENDING;
-import static com.ecommerce.eshop.utils.ControllersUtils.ControllersUtils.ORDER_DESCENDING;
+import static com.ecommerce.eshop.utils.controllersUtils.ControllersUtils.ORDER_ASCENDING;
+import static com.ecommerce.eshop.utils.controllersUtils.ControllersUtils.ORDER_DESCENDING;
 
 @RestController
 @RequestMapping("/products")
