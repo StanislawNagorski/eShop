@@ -5,7 +5,6 @@ import com.ecommerce.eshop.order.models.CustomerOrder;
 import com.ecommerce.eshop.order.models.OrderStatus;
 import com.ecommerce.eshop.product.models.Product;
 import com.ecommerce.eshop.product.service.ProductService;
-import com.ecommerce.eshop.utils.ControllersUtils.DateRange;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,10 +34,6 @@ class CustomerOrderServiceTest {
     final Long TEST_ORDER_ID = 2L;
     Product product;
     Product product2;
-
-    @Before
-    void setUp() {
-    }
 
     @Test()
     void shouldTrowExceptionWhenSavingOrderWithoutAnyProducts() {

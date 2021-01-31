@@ -1,4 +1,4 @@
-package com.ecommerce.eshop.utils.ControllersUtils;
+package com.ecommerce.eshop.utils.controllersUtils;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
