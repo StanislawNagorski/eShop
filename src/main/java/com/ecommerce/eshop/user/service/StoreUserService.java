@@ -8,6 +8,7 @@ import com.ecommerce.eshop.utils.excepctions.ExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
@@ -22,6 +23,7 @@ public class StoreUserService {
         if (repository.existsById(user.getLogin())){
             throw new UserCreationException(String.format(USER_CANNOT_SAVE, user.getLogin()));
         }
+        user.setCustomerOrders(new ArrayList<>());
         return repository.save(user);
     }
 
