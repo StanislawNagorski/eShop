@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.ecommerce.eshop.utils.excepctions.ExceptionUtils.*;
@@ -25,6 +26,10 @@ public class StoreUserService {
         }
         user.setCustomerOrders(new ArrayList<>());
         return repository.save(user);
+    }
+
+    public List<StoreUser> getAllUsers(){
+        return repository.findAll();
     }
 
     public StoreUser getByLogin(StoreUser user){
