@@ -15,6 +15,8 @@ import static com.ecommerce.eshop.user.UserRole.*;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails userDetails = User.withDefaultPasswordEncoder()
